@@ -1,0 +1,27 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brown-50: #fdf8f6;
+  --brown-100: #f2e8e5;
+  --brown-700: #8b5e34;
+  --brown-900: #4a3324;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-brown-50;
+  }
+}
+
+@layer components {
+  .hero-gradient {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white/30;
+  }
+}

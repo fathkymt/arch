@@ -1,0 +1,216 @@
+/* Hamburger Menu Styles */
+.navbar-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  z-index: 1000;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+}
+
+.hamburger:hover .bar {
+  background-color: #000000;
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  margin: 2px;
+  background-color: #ff0000;
+  border-radius: 2px;
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Hamburger Menu Animation */
+.toggle-checkbox:checked + .hamburger .bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+  width: 28px;
+}
+
+.toggle-checkbox:checked + .hamburger .bar:nth-child(2) {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.toggle-checkbox:checked + .hamburger .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+  width: 28px;
+}
+
+/* Logo Styles */
+.logo-container {
+  text-align: center;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawer-menu.open .logo-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: 1px;
+}
+
+/* Drawer Menu Styles */
+.drawer-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 300px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  padding: 60px 40px 40px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.drawer-menu.open {
+  transform: translateX(0);
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.nav-link {
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding: 5px 0;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.drawer-menu.open .nav-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #a51212;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Overlay */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 998;
+  pointer-events: none;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Social Links */
+.social-container {
+  width: 100%;
+  padding-top: 20px;
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawer-menu.open .social-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ff03ea;
+  text-decoration: none;
+  padding: 8px;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.social-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.social-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.social-link span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Enhanced Link Animations */
+.drawer-menu.open .nav-link:nth-child(1) { transition-delay: 0.1s; }
+.drawer-menu.open .nav-link:nth-child(2) { transition-delay: 0.2s; }
+.drawer-menu.open .nav-link:nth-child(3) { transition-delay: 0.3s; }
+.drawer-menu.open .nav-link:nth-child(4) { transition-delay: 0.4s; }

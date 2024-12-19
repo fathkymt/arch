@@ -1,0 +1,45 @@
+.heroSection {
+    position: relative;
+    height: 60vh;
+    width: 100%;
+    background-color: #f5f5f5;
+  }
+  
+  .heroContent {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  
+  .valueCard {
+    transition: transform 0.3s ease;
+  }
+  
+  .valueCard:hover {
+    transform: translateY(-10px);
+  }
+  
+  .teamMember {
+    transition: transform 0.3s ease;
+  }
+  
+  .teamMember:hover {
+    transform: translateY(-5px);
+  }
+  
+  .sectionPadding {
+    padding: 5rem 0;
+  }
+  
+  @media (max-width: 768px) {
+    .heroSection {
+      height: 50vh;
+    }
+    
+    .sectionPadding {
+      padding: 3rem 0;
+    }
+  }
