@@ -17,6 +17,27 @@
   letter-spacing: -0.02em;
 }
 
+.projectsContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.projectCard {
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+
 .ctaContainer {
   position: relative;
   z-index: 2;
@@ -37,7 +58,7 @@
   background-color: var(--bg);
   transition: all 0.2s ease;
   display: inline-block;
-  box-shadow:
+  box-shadow: 
     inset 0 0.3rem 0.9rem rgba(255, 255, 255, 0.3),
     inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.7),
     inset 0 -0.4rem 0.9rem rgba(255, 255, 255, 0.5),
@@ -109,7 +130,7 @@
 }
 
 .pearlButton:hover {
-  box-shadow:
+  box-shadow: 
     inset 0 0.3rem 0.5rem rgba(255, 255, 255, 0.4),
     inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.7),
     inset 0 -0.4rem 0.9rem rgba(255, 255, 255, 0.7),
@@ -132,7 +153,7 @@
 
 .pearlButton:active {
   transform: translateY(4px);
-  box-shadow:
+  box-shadow: 
     inset 0 0.3rem 0.5rem rgba(255, 255, 255, 0.5),
     inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.8),
     inset 0 -0.4rem 0.9rem rgba(255, 255, 255, 0.4),
@@ -140,7 +161,31 @@
     0 1rem 1rem -0.6rem rgba(0, 0, 0, 0.8);
 }
 
+/* Tablet için medya sorgusu */
+@media (max-width: 1024px) {
+  .projectsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+}
+
+/* Mobil için medya sorgusu */
 @media (max-width: 768px) {
+  .projectsGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .projectCard {
+    width: 100%;
+    margin: 0 auto;
+  }
+
   .sectionTitle {
     font-size: 2rem;
     margin-bottom: 2rem;
@@ -149,5 +194,25 @@
   .wrap {
     font-size: 20px;
     padding: 24px 35px;
+  }
+}
+
+/* Küçük mobil cihazlar için medya sorgusu */
+@media (max-width: 480px) {
+  .projectsSection {
+    padding: 2rem 0;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .projectsGrid {
+    gap: 1.5rem;
+  }
+
+  .wrap {
+    font-size: 18px;
+    padding: 20px 30px;
   }
 }

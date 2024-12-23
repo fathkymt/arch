@@ -49,22 +49,13 @@ const ProjectsSection = () => {
       
       <h2 className={sectionStyles.sectionTitle}>Örnek Projeler</h2>
       
-      <div className="relative w-full min-h-[600px]">
-        <div className="max-w-[1800px] mx-auto relative px-4">
-          {/* Sol Kart */}
-          <div className="absolute left-0 w-[600px]" style={{ zIndex: 3, left: '5%' }}>
-            <ProjectCard project={projects[0]} isVisible={true} />
-          </div>
-          
-          {/* Orta Kart */}
-          <div className="absolute w-[600px] left-1/2 -translate-x-1/2" style={{ zIndex: 2 }}>
-            <ProjectCard project={projects[1]} isVisible={true} />
-          </div>
-          
-          {/* Sağ Kart */}
-          <div className="absolute right-0 w-[600px]" style={{ zIndex: 1, right: '5%' }}>
-            <ProjectCard project={projects[2]} isVisible={true} />
-          </div>
+      <div className={sectionStyles.projectsContainer}>
+        <div className={sectionStyles.projectsGrid}>
+          {projects.map((project, index) => (
+            <div key={project.id} className={sectionStyles.projectCard}>
+              <ProjectCard project={project} isVisible={true} />
+            </div>
+          ))}
         </div>
       </div>
 
