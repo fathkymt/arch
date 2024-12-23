@@ -171,48 +171,72 @@
   .sectionTitle {
     font-size: 2.2rem;
   }
+  
+  .projectCard {
+    max-width: 450px;
+    margin: 0 auto;
+  }
 }
 
 /* Mobil için medya sorgusu */
 @media (max-width: 768px) {
   .projectsGrid {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
   }
 
   .projectCard {
-    width: 100%;
+    width: 85%;
+    max-width: 350px;
     margin: 0 auto;
   }
 
   .sectionTitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .projectsSection {
+    padding: 2rem 0;
   }
 
   .wrap {
-    font-size: 20px;
-    padding: 24px 35px;
+    font-size: 18px;
+    padding: 20px 30px;
   }
 }
 
 /* Küçük mobil cihazlar için medya sorgusu */
 @media (max-width: 480px) {
   .projectsSection {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
+  }
+
+  .projectCard {
+    width: 90%;
+    max-width: 300px;
   }
 
   .sectionTitle {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
   }
 
   .projectsGrid {
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .wrap {
-    font-size: 18px;
-    padding: 20px 30px;
+    font-size: 16px;
+    padding: 16px 24px;
+  }
+}
+
+/* Çok küçük ekranlar için */
+@media (max-width: 360px) {
+  .projectCard {
+    width: 95%;
+    max-width: 280px;
   }
 }
