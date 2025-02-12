@@ -15,59 +15,77 @@ const projects = [
     technologies: ['Sürdürülebilir Malzeme', 'Modern Tasarım', 'Enerji Verimliliği']
   },
   {
-    id: 2,
+    id: 9,
     title: 'Ekolojik Yaşam Merkezi',
     description: 'Sürdürülebilir malzemeler kullanılarak tasarlanan topluluk yaşam alanı',
-    image: '/images/projects/project2.jpg',
+    image: '/images/projects/palmares/1.png',
     category: 'peyzaj',
     technologies: ['Ekolojik Tasarım', 'Yeşil Çatı', 'Yağmur Hasadı']
   },
   {
-    id: 3,
+    id: 8,
     title: 'Sahil Rezidansı',
     description: 'Deniz manzaralı, ahşap detaylarla bezeli modern yaşam kompleksi',
-    image: '/images/projects/project3.jpg',
+    image: '/images/projects/mgvilla/1.png',
     category: 'ic-mimari',
     technologies: ['Özel Tasarım', 'Lüks Detaylar', 'Akıllı Ev Sistemleri']
   }
 ];
 
 const ProjectsSection = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    setMounted(true);
+    return () => setMounted(false);
   }, []);
 
-  if (!isMounted) {
-    return null;
+  if (!mounted) {
+    return (
+      <section className={sectionStyles.projectsSection}>
+        <div className={backgroundStyles.container} />
+        <div className={backgroundStyles.overlay} />
+        <div className="min-h-screen" />
+      </section>
+    );
   }
 
   return (
     <section className={sectionStyles.projectsSection}>
       <div className={backgroundStyles.container} />
+      <div className={backgroundStyles.overlay} />
       
       <h2 className={sectionStyles.sectionTitle}>Örnek Projeler</h2>
       
       <div className={sectionStyles.projectsContainer}>
         <div className={sectionStyles.projectsGrid}>
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <div key={project.id} className={sectionStyles.projectCard}>
-              <ProjectCard project={project} isVisible={true} />
+              <ProjectCard project={project} isVisible={mounted} />
             </div>
           ))}
         </div>
       </div>
 
       <div className={sectionStyles.ctaContainer}>
-        <Link href="/projects" className={sectionStyles.pearlButton}>
-          <div className={sectionStyles.wrap}>
-            <p>
-              <span>✧</span>
-              <span>✦</span>
-              Tüm Projeleri Görüntüle
-            </p>
-          </div>
+        <Link href="/projects" className={sectionStyles.cta}>
+          <span className={sectionStyles.hoverUnderlineAnimation}>
+            Tüm Projeleri Görüntüle
+          </span>
+          <svg
+            viewBox="0 0 46 16"
+            height="10"
+            width="30"
+            xmlns="http://www.w3.org/2000/svg"
+            id="arrow-horizontal"
+          >
+            <path
+              transform="translate(30)"
+              d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+              data-name="Path 10"
+              id="Path_10"
+            ></path>
+          </svg>
         </Link>
       </div>
     </section>

@@ -1,4 +1,3 @@
-// src/components/layout/Footer.js
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -11,22 +10,24 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
-        {/* Logo ve Açıklama */}
         <div className={styles.brandSection}>
-          <Image
-            src="/logo.svg"
-            alt="Mimarlık Ofisi Logo"
-            width={120}
-            height={40}
-            className={styles.logo}
-          />
+          <Link href="/">
+            <Image
+              src="/images/logo/whitelogo.svg"
+              alt="Mimarlık Ofisi Logo"
+              width={120}
+              height={40}
+              className={styles.logo}
+              priority
+            />
+          </Link>
           <p className={styles.brandDescription}>
             Modern tasarım anlayışı ile geleneksel ahşap mimarisini
             birleştirerek yaşam alanlarınıza değer katıyoruz.
           </p>
         </div>
 
-        {/* Hızlı Linkler */}
+        {/* Rest of the footer content remains the same */}
         <div className={styles.linksSection}>
           <h3 className={styles.sectionTitle}>Hızlı Erişim</h3>
           <nav className={styles.quickLinks}>
@@ -37,7 +38,6 @@ const Footer = () => {
           </nav>
         </div>
 
-        {/* İletişim Bilgileri */}
         <div className={styles.contactSection}>
           <h3 className={styles.sectionTitle}>İletişim</h3>
           <div className={styles.contactInfo}>
@@ -60,11 +60,10 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Sosyal Medya */}
         <div className={styles.socialSection}>
           <h3 className={styles.sectionTitle}>Sosyal Medya</h3>
           <a 
-            href="https://instagram.com"
+            href="https://www.instagram.com/espartnersmimarlik"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialLink}
@@ -75,7 +74,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Alt Bilgi */}
       <div className={styles.bottomBar}>
         <p>© {currentYear} Mimarlık Ofisi. Tüm hakları saklıdır.</p>
       </div>

@@ -52,7 +52,7 @@ export default function ProjectDetail({ params }) {
       {/* Navigation Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div className="container mx-auto px-4">
-          <div className="h-16 flex items-center justify-between">
+          <div className="h-20 flex items-center justify-between">
             {/* Sol taraf - Hamburger menu için boş bırakılıyor */}
             <div className="w-12">
               {/* Hamburger menu buraya gelecek */}
@@ -61,20 +61,20 @@ export default function ProjectDetail({ params }) {
             {/* Orta kısım - Navigation butonları */}
             <div className="flex items-center gap-3">
               <Link
-                href={`/projects/${category}`}
+                href="/projects"
                 className="group relative px-4 py-2 text-sm text-white/90 hover:text-white transition-colors"
               >
-                <span className="relative z-10">Kategori</span>
+                <span className="relative z-10">Tüm Projeler</span>
                 <span className="absolute inset-0 bg-white/5 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
               
               <span className="text-white/20">|</span>
               
               <Link
-                href="/projects"
+                href={`/projects/${category}`}
                 className="group relative px-4 py-2 text-sm text-white/90 hover:text-white transition-colors"
               >
-                <span className="relative z-10">Tüm Projeler</span>
+                <span className="relative z-10">Kategori</span>
                 <span className="absolute inset-0 bg-white/5 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
               </Link>
             </div>

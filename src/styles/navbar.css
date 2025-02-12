@@ -36,7 +36,7 @@
   width: 24px;
   height: 2px;
   margin: 2px;
-  background-color: #ff0000;
+  background-color: #750606;
   border-radius: 2px;
   transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
@@ -59,7 +59,8 @@
 
 /* Logo Styles */
 .logo-container {
-  text-align: center;
+  text-align: right; /* Sağa hizalama */
+  padding-right: 60px; /* Sağdan boşluk */
   margin-bottom: 40px;
   opacity: 0;
   transform: translateY(-20px);
@@ -71,13 +72,12 @@
   transform: translateY(0);
 }
 
-.logo {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #000000;
-  letter-spacing: 1px;
+.logo-image {
+  width: auto;
+  height: 140px; /* Logo yüksekliğini ayarlayın */
+  max-width: 100%;
+  object-fit: contain;
 }
-
 /* Drawer Menu Styles */
 .drawer-menu {
   position: fixed;

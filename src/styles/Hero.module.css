@@ -1,49 +1,75 @@
 .content {
   @apply relative z-10 flex flex-col items-center justify-center h-full text-center px-4;
   position: relative;
-  z-index: 3; /* Background effect z-index'inden daha yüksek */
+  z-index: 3;
+}
+
+.slideContainer {
+  @apply flex absolute w-full h-full;
+}
+
+.slide {
+  @apply relative min-w-full h-full;
+  position: absolute;
+  opacity: 0;
+  animation: none;
+}
+
+.slide.active {
+  opacity: 1;
+  animation: dustIn 1s ease-out forwards;
+}
+
+.slide.leaving {
+  animation: dustOut 1s ease-in forwards;
 }
 
 .title {
-  @apply flex flex-col text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 gap-2;
+  @apply flex flex-col text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .subtitle {
-  @apply flex flex-col text-xl md:text-2xl text-white gap-2;
+  @apply flex flex-col text-xl md:text-2xl text-white;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.animate {
-  opacity: 0;
-  animation: slideUp 0.8s forwards;
+.indicators {
+  @apply absolute top-1/2 right-8 -translate-y-1/2 flex flex-col gap-2;
+  z-index: 10;
 }
 
-.title .animate:nth-child(2) {
-  animation-delay: 0.2s;
+.indicator {
+  @apply w-3 h-3 rounded-full bg-white/50 cursor-pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.subtitle .animate {
-  animation-delay: 0.4s;
+.indicatorActive {
+  @apply bg-white scale-125;
 }
 
-.subtitle .animate:nth-child(2) {
-  animation-delay: 0.6s;
-}
-
-.scrollIcon {
-  @apply absolute bottom-8 left-1/2 -translate-x-1/2 text-white w-8 h-8 animate-bounce;
-  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
-  z-index: 3;
-}
-
-@keyframes slideUp {
-  from {
-      opacity: 0;
-      transform: translateY(20px);
+@keyframes dustOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) blur(0);
   }
-  to {
-      opacity: 1;
-      transform: translateY(0);
+  100% {
+    opacity: 0;
+    transform: scale(1.1) rotate(2deg);
+    filter: brightness(1.5) blur(10px);
+  }
+}
+
+@keyframes dustIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) rotate(-2deg);
+    filter: brightness(1.2) blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+    filter: brightness(1) blur(0);
   }
 }

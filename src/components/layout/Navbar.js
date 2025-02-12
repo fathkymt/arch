@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Instagram } from 'lucide-react';
 import '@/styles/navbar.css';
 
@@ -48,7 +49,13 @@ const Navbar = () => {
       <nav className={`drawer-menu ${isOpen ? 'open' : ''}`} role="navigation">
         <div className="logo-container">
           <Link href="/" onClick={() => setIsOpen(false)}>
-            <span className="logo">LOGO</span>
+            <Image
+              src="/images/logo/blacklogo.svg"
+              alt="Logo"
+              width={150}
+              height={40}
+              priority
+            />
           </Link>
         </div>
 
@@ -69,7 +76,7 @@ const Navbar = () => {
 
         <div className="social-container">
           <a
-            href="https://instagram.com/"
+            href="https://www.instagram.com/espartnersmimarlik"
             target="_blank"
             rel="noopener noreferrer"
             className="social-link"
