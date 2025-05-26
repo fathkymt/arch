@@ -50,7 +50,7 @@ const Navbar = () => {
         <div className="logo-container">
           <Link href="/" onClick={() => setIsOpen(false)}>
             <Image
-              src="/images/logo/blacklogo.svg"
+              src="/images/logo/yenilogo.svg"
               alt="Logo"
               width={150}
               height={40}
