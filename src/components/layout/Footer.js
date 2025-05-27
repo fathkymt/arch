@@ -49,11 +49,15 @@ const Footer = () => {
             </div>
             <div className={styles.contactItem}>
               <MapPin size={18} />
-              <address>
+              <a 
+                href="https://maps.app.goo.gl/7SuLHkdww2dPHsU27"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Melikşah Mah. Hocafakıh Cad.<br />
                 Füsun Sk. Arca Plaza Kat:1 No:2<br />
                 Meram/Konya
-              </address>
+              </a>
             </div>
           </div>
         </div>

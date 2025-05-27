@@ -7,19 +7,24 @@ const contactInfo = [
   {
     icon: <MapPin className="w-6 h-6" />,
     title: "Adres",
-    details: ["Örnek Mahallesi, Mimarlık Caddesi No:123", "Kadıköy, İstanbul"],
+    details: [
+      "Melikşah Mah. Hocafakıh Cad.",
+      "Füsun Sk. Arca Plaza Kat:1 No:2",
+      "Meram/Konya"
+    ],
+    link: "https://maps.app.goo.gl/7SuLHkdww2dPHsU27",
     delay: 0.2
   },
   {
     icon: <Phone className="w-6 h-6" />,
     title: "Telefon",
-    details: ["+90 (212) 123 45 67"],
+    details: ["+90 507 267 63 79", "+90 506 770 42 72"],
     delay: 0.3
   },
   {
     icon: <Mail className="w-6 h-6" />,
     title: "E-posta",
-    details: ["info@mimarlikofisi.com"],
+    details: ["info@espluspartners.com"],
     delay: 0.4
   },
   {
@@ -31,14 +36,8 @@ const contactInfo = [
 ];
 
 const ContactCard = ({ info }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: info.delay }}
-      viewport={{ once: true }}
-      className={`${styles.contactCard} p-6 rounded-xl`}
-    >
+  const content = (
+    <>
       <div className={styles.iconWrapper}>
         {info.icon}
       </div>
@@ -50,6 +49,35 @@ const ContactCard = ({ info }) => {
           {detail}
         </p>
       ))}
+    </>
+  );
+
+  if (info.link) {
+    return (
+      <motion.a
+        href={info.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: info.delay }}
+        viewport={{ once: true }}
+        className={`${styles.contactCard} p-6 rounded-xl block hover:shadow-lg transition-shadow`}
+      >
+        {content}
+      </motion.a>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: info.delay }}
+      viewport={{ once: true }}
+      className={`${styles.contactCard} p-6 rounded-xl`}
+    >
+      {content}
     </motion.div>
   );
 };
@@ -118,8 +146,8 @@ export default function ContactPage() {
               viewport={{ once: true }}
               className={`${styles.mapContainer} rounded-xl overflow-hidden h-[400px]`}
             >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.6504900120997!2d29.02885931574821!3d40.99050792855247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab8679bfb3d31%3A0x7d75715e081dfa5c!2sKad%C4%B1k%C3%B6y%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1672901234567!5m2!1str!2str"
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.5228190788457!2d32.462834900000004!3d37.871454299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d08531860adcb3%3A0x5f116f4d0c50ad1c!2sES%2BPartners%20Mimarl%C4%B1k!5e0!3m2!1sen!2str!4v1748353608114!5m2!1sen!2str"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
