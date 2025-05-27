@@ -192,8 +192,10 @@
 
     .brandSection {
       padding-left: 7rem;
-      margin-top: -3rem;  /* -1.5rem'den -3rem'e değiştiriyoruz, logo daha yukarı çıkacak */
+      margin-top: -2rem;  /* Daha yukarı çıkarmak için -3rem'den -6rem'e değiştiriyoruz */
       justify-content: flex-start;
+      position: relative;
+      top: 0;  /* top değerini sıfırlıyoruz çünkü mobil görünümden kalan 4rem değeri etki edebilir */
     }
 
     .bottomBar {

@@ -84,22 +84,28 @@ const ContactCard = ({ info }) => {
 
 export default function ContactPage() {
   return (
-    <div className={`min-h-screen ${styles.background}`}>
+    <div className="relative min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[50vh]">
-        <div className={styles.heroPattern} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70">
-          <div className="container mx-auto h-full flex flex-col justify-center px-6">
-            <motion.div
+      <section className="relative h-[50vh] projects-bg">
+        <div className="texture-container">
+          <div className="metal-base" />
+          <div className="metal-grain" />
+          <div className="fabric-texture" />
+          <div className="fine-details" />
+          <div className="surface-highlights" />
+        </div>
+        <div className="absolute inset-0">
+          <div className="container mx-auto h-full flex flex-col justify-center px-6 pt-12 md:pt-0">
+            <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="max-w-2xl"
             >
               <h1 className="text-4xl md:text-6xl font-light text-white mb-6">
-                Bize <span className="font-semibold">Ulaşın</span>
+                Bize <span className="font-light">Ulaşın</span>
               </h1>
-              <p className="text-xl text-gray-200 leading-relaxed">
+              <p className="text-zinc-300 text-xl leading-relaxed">
                 Projeleriniz için yanınızdayız. Fikirlerinizi gerçeğe dönüştürmek için bizimle iletişime geçin.
               </p>
             </motion.div>

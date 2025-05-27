@@ -33,7 +33,7 @@ const ProjectCard = ({ project, isVisible }) => {
           style={{
             transform: transform,
           }}
-          className="absolute left-1/2 top-1/2 w-[450px] rounded-xl overflow-hidden transition-all duration-700 bg-gradient-to-b from-neutral-900 to-neutral-800 border border-white/10 shadow-lg shadow-black/20"
+          className="absolute left-1/2 top-1/2 w-[450px] md:w-[450px] w-[calc(100vw-3rem)] rounded-xl overflow-hidden transition-all duration-700 bg-gradient-to-b from-neutral-900 to-neutral-800 border border-white/10 shadow-lg shadow-black/20"
         >
           <div className="relative z-50">
             <div className="relative w-full h-[300px] group-hover/pin:opacity-90 transition-opacity duration-300">

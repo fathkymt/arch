@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Building2, PaintBucket, Trees } from 'lucide-react';
 import styles from '@/styles/AboutBackground.module.css';
+import React from 'react';
 
 const services = [
   {
@@ -49,21 +50,21 @@ const ServiceCard = ({ service, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay: index * 0.2 }}
-    className={`${styles.serviceCard} p-8 rounded-xl`}
+    className={`${styles.serviceCard} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 p-8 rounded-xl`}
   >
     <div className={styles.iconContainer}>
-      {service.icon}
+      {React.cloneElement(service.icon, { className: "text-zinc-400" })}
     </div>
-    <h3 className="text-2xl font-medium mb-4 text-gray-800">
+    <h3 className="text-2xl font-medium mb-4 text-gray-900">
       {service.title}
     </h3>
-    <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
+    <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">
       {service.description}
     </p>
     <ul className="space-y-2">
       {service.features.map((feature, i) => (
-        <li key={i} className="text-gray-500 flex items-center text-sm">
-          <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mr-2" />
+        <li key={i} className="text-zinc-500 flex items-center text-sm">
+          <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mr-2" />
           {feature}
         </li>
       ))}
@@ -84,17 +85,22 @@ export default function AboutPage() {
           priority
         />
         <div className={`absolute inset-0 ${styles.heroOverlay}`}>
-          <div className="container mx-auto h-full flex items-end justify-center px-6 pb-10 md:pb-6">
+          <div className="container mx-auto h-full flex items-end md:items-center justify-center px-6 pb-10 md:pb-0 md:mt-80">
             <motion.div 
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="max-w-2xl text-center"
+              className="w-full max-w-5xl mx-auto text-center"
             >
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight">
-                Mimari Vizyonunuzu
-                <br />
-                <span className="font-bold">Gerçeğe Dönüştürüyoruz</span>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight whitespace-nowrap mx-auto">
+                <span className="md:hidden">
+                  Mimari Vizyonunuzu
+                  <br />
+                  <span className="font-light">Gerçeğe Dönüştürüyoruz</span>
+                </span>
+                <span className="hidden md:inline">
+                  <span className="font-light">Mimari Vizyonunuzu Gerçeğe Dönüştürüyoruz</span>
+                </span>
               </h1>
             </motion.div>
           </div>
@@ -140,20 +146,29 @@ export default function AboutPage() {
       */}
 
       {/* Hizmetlerimiz */}
-      <section className="py-24 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <motion.h2 
-            className="text-4xl font-light mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-gray-400">02 /</span> Hizmetlerimiz
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <ServiceCard key={service.title} service={service} index={index} />
-            ))}
+      <section className="relative projects-bg">
+        <div className="texture-container">
+          <div className="metal-base" />
+          <div className="metal-grain" />
+          <div className="fabric-texture" />
+          <div className="fine-details" />
+          <div className="surface-highlights" />
+        </div>
+        <div className="relative z-10 py-24 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <motion.h2 
+              className="text-4xl font-light mb-16 text-white"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="text-zinc-400">02 /</span> Hizmetlerimiz
+            </motion.h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {services.map((service, index) => (
+                <ServiceCard key={service.title} service={service} index={index} />
+              ))}
+            </div>
           </div>
         </div>
       </section>

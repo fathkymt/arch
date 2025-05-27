@@ -1,47 +1,27 @@
-.background {
-    background-color: #ffffff;
-    position: relative;
-  }
-  
-  .heroPattern {
-    position: absolute;
-    inset: 0;
-    background-color: #2b1810;
-    opacity: 0.9;
-    background-image: 
-      linear-gradient(30deg, #5c4034 12%, transparent 12.5%, transparent 87%, #5c4034 87.5%, #5c4034),
-      linear-gradient(150deg, #5c4034 12%, transparent 12.5%, transparent 87%, #5c4034 87.5%, #5c4034),
-      linear-gradient(30deg, #5c4034 12%, transparent 12.5%, transparent 87%, #5c4034 87.5%, #5c4034),
-      linear-gradient(150deg, #5c4034 12%, transparent 12.5%, transparent 87%, #5c4034 87.5%, #5c4034),
-      linear-gradient(60deg, #5c403477 25%, transparent 25.5%, transparent 75%, #5c403477 75%, #5c403477);
-    background-size: 80px 140px;
-    background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0;
-  }
-  
-  .contactCard {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-  }
-  
-  .contactCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-  
-  .iconWrapper {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    color: #2b1810;
-  }
-  
-  .mapContainer {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
+.contactCard {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.contactCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: #2b1810;
+}
+
+.mapContainer {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}

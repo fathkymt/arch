@@ -24,4 +24,96 @@
   .hero-gradient {
     @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white/30;
   }
+
+  /* Texture Container */
+  .texture-container {
+    @apply absolute inset-0 overflow-hidden;
+    z-index: 0;
+  }
+
+  /* Proje Sayfası Arkaplanı */
+  .projects-bg {
+    @apply bg-[#111111];
+  }
+
+  /* Mat Metal Temel Doku */
+  .metal-base {
+    @apply absolute inset-0;
+    background: 
+      linear-gradient(
+        45deg,
+        rgb(18, 18, 18) 0%,
+        rgb(22, 22, 22) 50%,
+        rgb(18, 18, 18) 100%
+      );
+  }
+
+  /* Kumaş Doku Katmanı */
+  .fabric-texture {
+    @apply absolute inset-0;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.02) 0px,
+        rgba(255, 255, 255, 0.02) 2px,
+        transparent 2px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.02) 0px,
+        rgba(255, 255, 255, 0.02) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+    background-size: 150px 150px;
+  }
+
+  /* Metal Granül Doku */
+  .metal-grain {
+    @apply absolute inset-0;
+    background-image: 
+      repeating-linear-gradient(
+        90deg,
+        rgba(28, 28, 28, 0.8) 0px,
+        rgba(28, 28, 28, 0.8) 1px,
+        transparent 1px,
+        transparent 30px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(28, 28, 28, 0.8) 0px,
+        rgba(28, 28, 28, 0.8) 1px,
+        transparent 1px,
+        transparent 30px
+      );
+    background-size: 30px 30px;
+  }
+
+  /* İnce Detay Katmanı */
+  .fine-details {
+    @apply absolute inset-0;
+    background-image: 
+      linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.015) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.015) 1px,
+        transparent 1px
+      );
+    background-size: 6px 6px;
+  }
+
+  /* Yüzey Vurguları */
+  .surface-highlights {
+    @apply absolute inset-0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 60%
+    );
+  }
 }

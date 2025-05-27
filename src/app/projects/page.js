@@ -52,117 +52,123 @@ const ProjectsPage = () => {
   });
 
   return (
-    <div className="relative min-h-screen bg-transparent">
-      {/* Background Pattern */}
-      <div className={styles.backgroundContainer} />
-      
-      <div className="relative z-10 container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-            Projelerimiz
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Mimari, iç mimari ve peyzaj alanlarında gerçekleştirdiğimiz seçkin projelerimiz
-          </p>
-        </motion.div>
-
-        {/* Category Filters */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-3 mb-16"
-        >
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-6 py-2.5 rounded-full transition-all duration-300 text-sm font-medium ${
-              selectedCategory === 'all'
-                ? 'bg-white text-black shadow-lg'
-                : 'bg-neutral-900/70 text-white hover:bg-neutral-800/70 shadow-md backdrop-blur-sm'
-            }`}
+    <div className="relative min-h-screen">
+      <section className="relative projects-bg">
+        <div className="texture-container">
+          <div className="metal-base" />
+          <div className="metal-grain" />
+          <div className="fabric-texture" />
+          <div className="fine-details" />
+          <div className="surface-highlights" />
+        </div>
+        <div className="relative z-10 container mx-auto px-4 pt-32 pb-16 sm:px-6 lg:px-8">
+          {/* Hero Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
           >
-            Tümü
-          </button>
-          {Object.entries(categories).map(([key, value]) => (
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-wider mb-6 text-white">
+              Projelerimiz
+            </h1>
+            <p className="text-lg text-zinc-400 max-w-2xl mx-auto font-light tracking-wide">
+              Mimari, iç mimari ve peyzaj alanlarında gerçekleştirdiğimiz seçkin projelerimiz
+            </p>
+          </motion.div>
+
+          {/* Category Filters */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-wrap justify-center gap-3 mb-16"
+          >
             <button
-              key={key}
-              onClick={() => setSelectedCategory(key)}
+              onClick={() => setSelectedCategory('all')}
               className={`px-6 py-2.5 rounded-full transition-all duration-300 text-sm font-medium ${
-                selectedCategory === key
+                selectedCategory === 'all'
                   ? 'bg-white text-black shadow-lg'
-                  : 'bg-neutral-900/70 text-white hover:bg-neutral-800/70 shadow-md backdrop-blur-sm'
+                  : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-md'
               }`}
             >
-              {value}
+              Tümü
             </button>
-          ))}
-        </motion.div>
-
-        {/* Projects List */}
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={selectedCategory}
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            className="max-w-7xl mx-auto space-y-24"
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                variants={getCardVariants(index)}
-                className="group"
+            {Object.entries(categories).map(([key, value]) => (
+              <button
+                key={key}
+                onClick={() => setSelectedCategory(key)}
+                className={`px-6 py-2.5 rounded-full transition-all duration-300 text-sm font-medium ${
+                  selectedCategory === key
+                    ? 'bg-white text-black shadow-lg'
+                    : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-md'
+                }`}
               >
-                <Link href={`/projects/${project.category}/${project.id}`}>
-                  <div className={`flex flex-col md:flex-row gap-8 items-center ${
-                    index % 2 === 1 ? 'md:flex-row-reverse' : ''
-                  }`}>
-                    {/* Project Image */}
-                    <div className="w-full md:w-1/2">
-                      <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                    </div>
-
-                    {/* Project Info */}
-                    <div className="w-full md:w-1/2 space-y-6">
-                      <span className="inline-block px-3 py-1 text-sm rounded-full bg-neutral-900/70 backdrop-blur-sm text-white">
-                        {categories[project.category]}
-                      </span>
-                      
-                      <h2 className="text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
-                        {project.title}
-                      </h2>
-                      
-                      <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
-                        {project.description}
-                      </p>
-
-                      <div className="flex items-center text-white gap-2 pt-4">
-                        <span className="font-medium">Detayları Gör</span>
-                        <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+                {value}
+              </button>
             ))}
           </motion.div>
-        </AnimatePresence>
-      </div>
+
+          {/* Projects List */}
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={selectedCategory}
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="max-w-7xl mx-auto space-y-24"
+            >
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  variants={getCardVariants(index)}
+                  className="group"
+                >
+                  <Link href={`/projects/${project.category}/${project.id}`}>
+                    <div className={`flex flex-col md:flex-row gap-8 items-center ${
+                      index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                    }`}>
+                      {/* Project Image */}
+                      <div className="w-full md:w-1/2">
+                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
+                      </div>
+
+                      {/* Project Info */}
+                      <div className="w-full md:w-1/2 space-y-6">
+                        <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-900 text-white">
+                          {categories[project.category]}
+                        </span>
+                        
+                        <h2 className="text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
+                          {project.title}
+                        </h2>
+                        
+                        <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
+                          {project.description}
+                        </p>
+
+                        <div className="flex items-center text-white gap-2 pt-4">
+                          <span className="font-medium">Detayları Gör</span>
+                          <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
     </div>
   );
 };
