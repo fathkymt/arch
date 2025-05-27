@@ -1,6 +1,7 @@
 // src/app/layout.js
 import { Roboto } from 'next/font/google';
 import Navbar from '../components/layout/Navbar';
+import WhiteLogo from '../components/layout/WhiteLogo';
 import Footer from '../components/layout/Footer';
 import './globals.css';
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="tr" className={roboto.className}>
       <body suppressHydrationWarning>
         <Navbar />
+        <WhiteLogo />
         <main className="min-h-screen">
           {children}
         </main>
