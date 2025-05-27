@@ -26,6 +26,7 @@ const services = [
   }
 ];
 
+{/* Şimdilik devre dışı bırakıldı
 const team = [
   {
     name: "Ahmet Yılmaz",
@@ -40,6 +41,7 @@ const team = [
     description: "Modern mimari ve geleneksel malzemeleri harmanlayan özgün tasarımların yaratıcısı."
   }
 ];
+*/}
 
 const ServiceCard = ({ service, index }) => (
   <motion.div
@@ -73,35 +75,33 @@ export default function AboutPage() {
   return (
     <main className={styles.background}>
       {/* Hero Section */}
-      <section className="relative h-[85vh] w-full">
+      <section className="relative h-[70vh] md:h-[90vh] lg:h-screen w-full">
         <Image
           src="/images/about/hero.jpg"
           alt="Mimarlık Ofisi"
           fill
-          className="object-cover"
+          className="object-cover object-[22%_center]"
           priority
         />
         <div className={`absolute inset-0 ${styles.heroOverlay}`}>
-          <div className="container mx-auto h-full flex items-center px-6">
+          <div className="container mx-auto h-full flex items-end justify-center px-6 pb-16">
             <motion.div 
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="max-w-3xl"
+              className="max-w-2xl text-center"
             >
-              <h1 className="text-5xl md:text-7xl font-light mb-8 text-white leading-tight">
-                Mimari Vizyonunuzu<br />
+              <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+                Mimari Vizyonunuzu
+                <br />
                 <span className="font-bold">Gerçeğe Dönüştürüyoruz</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
-                25 yıldır sürdürülebilir, yenilikçi ve insan odaklı tasarımlar üretiyoruz.
-              </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Hikaye Bölümü */}
+      {/* Hikaye Bölümü - Şimdilik devre dışı
       <section className={`py-24 px-6 ${styles.contentSection}`}>
         <div className="container mx-auto max-w-6xl">
           <motion.div 
@@ -137,6 +137,7 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
+      */}
 
       {/* Hizmetlerimiz */}
       <section className="py-24 px-6">
@@ -157,7 +158,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Ekip */}
+      {/* Ekip - Şimdilik devre dışı
       <section className={`py-24 px-6 ${styles.contentSection}`}>
         <div className="container mx-auto max-w-6xl">
           <motion.h2 
@@ -196,6 +197,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      */}
     </main>
   );
 }
