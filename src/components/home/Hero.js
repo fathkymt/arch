@@ -22,9 +22,14 @@ const Hero = () => {
     },
     {
       image: '/images/hero/hero-image-3.jpg',
-      title: 'Özgün Detaylar',
-      subtitle: 'Kusursuz İşçilik'
-    }
+      title: 'Yenilikçi Tasarım',
+      subtitle: 'Sürdürülebilir Çözümler'
+    },
+    {
+      image: '/images/hero/hero-image-4.png',
+      title: 'Yenilikçi Tasarım',
+      subtitle: 'Sürdürülebilir Çözümler'
+    } 
   ];
 
   const changeSlide = (newIndex) => {
