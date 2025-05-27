@@ -84,14 +84,14 @@ export default function AboutPage() {
           priority
         />
         <div className={`absolute inset-0 ${styles.heroOverlay}`}>
-          <div className="container mx-auto h-full flex items-end justify-center px-6 pb-16">
+          <div className="container mx-auto h-full flex items-end justify-center px-6 pb-10 md:pb-6">
             <motion.div 
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               className="max-w-2xl text-center"
             >
-              <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight">
                 Mimari Vizyonunuzu
                 <br />
                 <span className="font-bold">Gerçeğe Dönüştürüyoruz</span>

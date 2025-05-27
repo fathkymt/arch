@@ -15,19 +15,14 @@ const Footer = () => {
             <Image
               src="/images/logo/whitelogo.svg"
               alt="Mimarlık Ofisi Logo"
-              width={120}
-              height={40}
-              className={styles.logo}
+              width={220}
+              height={80}
+              className={`${styles.logo} w-[140px] h-[50px] md:w-[220px] md:h-[80px]`}
               priority
             />
           </Link>
-          <p className={styles.brandDescription}>
-            Modern tasarım anlayışı ile geleneksel ahşap mimarisini
-            birleştirerek yaşam alanlarınıza değer katıyoruz.
-          </p>
         </div>
 
-        {/* Rest of the footer content remains the same */}
         <div className={styles.linksSection}>
           <h3 className={styles.sectionTitle}>Hızlı Erişim</h3>
           <nav className={styles.quickLinks}>
@@ -43,18 +38,21 @@ const Footer = () => {
           <div className={styles.contactInfo}>
             <div className={styles.contactItem}>
               <Mail size={18} />
-              <a href="mailto:info@mimarlik.com">info@mimarlik.com</a>
+              <a href="mailto:info@espluspartners.com">info@espluspartners.com</a>
             </div>
             <div className={styles.contactItem}>
-              <Phone size={18} />
-              <a href="tel:+902121234567">+90 (212) 123 45 67</a>
+              <Phone size={18} className="mt-[16px]" />
+              <div className="flex flex-col gap-[10px]">
+                <a href="tel:+905072676379">+90 507 267 63 79</a>
+                <a href="tel:+905067704272">+90 506 770 42 72</a>
+              </div>
             </div>
             <div className={styles.contactItem}>
               <MapPin size={18} />
               <address>
-                Levent Mah. Mimarlık Sk. No:1
-                <br />
-                Beşiktaş, İstanbul
+                Melikşah Mah. Hocafakıh Cad.<br />
+                Füsun Sk. Arca Plaza Kat:1 No:2<br />
+                Meram/Konya
               </address>
             </div>
           </div>
