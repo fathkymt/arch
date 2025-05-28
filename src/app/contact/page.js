@@ -84,7 +84,7 @@ const ContactCard = ({ info }) => {
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative">
       {/* Hero Section */}
       <section className="relative h-[50vh] projects-bg">
         <div className="texture-container">
@@ -95,12 +95,12 @@ export default function ContactPage() {
           <div className="surface-highlights" />
         </div>
         <div className="absolute inset-0">
-          <div className="container mx-auto h-full flex flex-col justify-center px-6 pt-12 md:pt-0">
+          <div className="container mx-auto h-full flex items-center justify-center px-6">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="max-w-2xl"
+              className="max-w-2xl w-full text-center"
             >
               <h1 className="text-4xl md:text-6xl font-light text-white mb-6">
                 Bize <span className="font-light">Ulaşın</span>

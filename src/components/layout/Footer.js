@@ -30,6 +30,7 @@ const Footer = () => {
             <Link href="/projects">Projeler</Link>
             <Link href="/about">Hakkımızda</Link>
             <Link href="/contact">İletişim</Link>
+            <Link href="/career">Kariyer</Link>
           </nav>
         </div>
 
@@ -64,7 +65,7 @@ const Footer = () => {
 
         <div className={styles.socialSection}>
           <h3 className={styles.sectionTitle}>Sosyal Medya</h3>
-          <a 
+          <a
             href="https://www.instagram.com/espartnersmimarlik"
             target="_blank"
             rel="noopener noreferrer"

@@ -72,6 +72,9 @@ const Navbar = () => {
           <Link href="/contact" className="nav-link" onClick={() => setIsOpen(false)}>
             İletişim
           </Link>
+          <Link href="/career" className="nav-link" onClick={() => setIsOpen(false)}>
+            Kariyer
+          </Link>
         </div>
 
         <div className="social-container">

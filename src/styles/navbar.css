@@ -223,3 +223,4 @@
 .drawer-menu.open .nav-link:nth-child(2) { transition-delay: 0.2s; }
 .drawer-menu.open .nav-link:nth-child(3) { transition-delay: 0.3s; }
 .drawer-menu.open .nav-link:nth-child(4) { transition-delay: 0.4s; }
+.drawer-menu.open .nav-link:nth-child(5) { transition-delay: 0.5s; }
