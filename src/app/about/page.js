@@ -5,25 +5,32 @@ import { motion } from 'framer-motion';
 import { Building2, PaintBucket, Trees } from 'lucide-react';
 import styles from '@/styles/AboutBackground.module.css';
 import React from 'react';
+import Link from 'next/link';
 
 const services = [
   {
     icon: <Building2 size={28} className="text-gray-700" />,
-    title: "Mimari Tasarım",
+    title: "Mimari Projeler",
     description: "Modern çizgiler ve sürdürülebilir yaklaşımlarla projelerinizi hayata geçiriyoruz. Her detayı özenle planlıyor, yaşanabilir mekanlar tasarlıyoruz.",
-    features: ["Konsept Tasarım", "3D Modelleme", "Teknik Çizimler"]
+    features: ["Konsept Tasarım", "3D Modelleme", "Teknik Çizimler"],
+    link: "/projects",
+    category: "mimari"
   },
   {
     icon: <PaintBucket size={28} className="text-gray-700" />,
-    title: "İç Mimari",
+    title: "İç Mimari Projeler",
     description: "Fonksiyonellik ve estetiği bir araya getirerek, yaşam alanlarınızı kişiselleştiriyoruz. Her mekanın potansiyelini maksimuma çıkarıyoruz.",
-    features: ["Mekan Tasarımı", "Mobilya Seçimi", "Aydınlatma Planı"]
+    features: ["Mekan Tasarımı", "Mobilya Seçimi", "Aydınlatma Planı"],
+    link: "/projects",
+    category: "ic-mimari"
   },
   {
-    icon: <Trees size={28} className="text-gray-700" />,
-    title: "Peyzaj Tasarımı",
-    description: "Doğayla uyumlu, sürdürülebilir peyzaj çözümleri sunuyoruz. Dış mekanlarınızı yaşayan alanlara dönüştürüyoruz.",
-    features: ["Bahçe Düzenleme", "Sulama Sistemleri", "Bitki Seçimi"]
+    icon: <Building2 size={28} className="text-gray-700" />,
+    title: "Kamu Projeleri",
+    description: "Toplumsal fayda odaklı, sürdürülebilir ve yenilikçi kamu yapıları tasarlıyoruz. Modern teknoloji ve fonksiyonel tasarımı bir araya getiriyoruz.",
+    features: ["Kurumsal Yapılar", "Eğitim Tesisleri", "Sosyal Alanlar"],
+    link: "/projects",
+    category: "kamu"
   }
 ];
 
@@ -45,31 +52,38 @@ const team = [
 */}
 
 const ServiceCard = ({ service, index }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.2 }}
-    className={`${styles.serviceCard} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 p-8 rounded-xl`}
+  <Link 
+    href={{
+      pathname: service.link,
+      query: { selectedCategory: service.category }
+    }}
   >
-    <div className={styles.iconContainer}>
-      {React.cloneElement(service.icon, { className: "text-zinc-400" })}
-    </div>
-    <h3 className="text-2xl font-medium mb-4 text-gray-900">
-      {service.title}
-    </h3>
-    <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">
-      {service.description}
-    </p>
-    <ul className="space-y-2">
-      {service.features.map((feature, i) => (
-        <li key={i} className="text-zinc-500 flex items-center text-sm">
-          <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mr-2" />
-          {feature}
-        </li>
-      ))}
-    </ul>
-  </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.2 }}
+      className={`${styles.serviceCard} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 p-8 rounded-xl cursor-pointer hover:border-zinc-700 transition-all duration-300 hover:-translate-y-1`}
+    >
+      <div className={styles.iconContainer}>
+        {React.cloneElement(service.icon, { className: "text-zinc-400" })}
+      </div>
+      <h3 className="text-2xl font-medium mb-4 text-gray-900">
+        {service.title}
+      </h3>
+      <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">
+        {service.description}
+      </p>
+      <ul className="space-y-2">
+        {service.features.map((feature, i) => (
+          <li key={i} className="text-zinc-500 flex items-center text-sm">
+            <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mr-2" />
+            {feature}
+          </li>
+        ))}
+      </ul>
+    </motion.div>
+  </Link>
 );
 
 export default function AboutPage() {
@@ -157,14 +171,14 @@ export default function AboutPage() {
         <div className="relative z-10 py-24 px-6">
           <div className="container mx-auto max-w-6xl">
             <motion.h2 
-              className="text-4xl font-light mb-16 text-white"
+              className="text-4xl font-light mb-16 text-white text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <span className="text-zinc-400">02 /</span> Hizmetlerimiz
+              Hizmetlerimiz
             </motion.h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 justify-items-center">
               {services.map((service, index) => (
                 <ServiceCard key={service.title} service={service} index={index} />
               ))}

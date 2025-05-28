@@ -14,6 +14,13 @@ const ProjectsPage = () => {
   useEffect(() => {
     setIsMounted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // URL'den kategori parametresini al
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryFromUrl = urlParams.get('selectedCategory');
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
   }, []);
 
   if (!isMounted) return null;
@@ -53,7 +60,7 @@ const ProjectsPage = () => {
 
   return (
     <div className="relative min-h-screen">
-      <section className="relative projects-bg">
+      <section className="relative projects-bg min-h-screen">
         <div className="texture-container">
           <div className="metal-base" />
           <div className="metal-grain" />
@@ -109,64 +116,87 @@ const ProjectsPage = () => {
             ))}
           </motion.div>
 
-          {/* Projects List */}
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={selectedCategory}
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="max-w-7xl mx-auto space-y-24"
+          {/* Projects List or Empty State */}
+          {filteredProjects.length > 0 ? (
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={selectedCategory}
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="max-w-7xl mx-auto space-y-24"
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={project.id}
+                    variants={getCardVariants(index)}
+                    className="group"
+                  >
+                    <Link href={`/projects/${project.category}/${project.id}`}>
+                      <div className={`flex flex-col md:flex-row gap-8 items-center ${
+                        index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                      }`}>
+                        {/* Project Image */}
+                        <div className="w-full md:w-1/2">
+                          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          </div>
+                        </div>
+
+                        {/* Project Info */}
+                        <div className="w-full md:w-1/2 space-y-6">
+                            <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-900 text-white">
+                            {categories[project.category]}
+                          </span>
+                          
+                          <h2 className="text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
+                            {project.title}
+                          </h2>
+                          
+                          <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
+                            {project.description}
+                          </p>
+
+                          <div className="flex items-center text-white gap-2 pt-4">
+                            <span className="font-medium">Detayları Gör</span>
+                            <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-center justify-center min-h-[400px] text-center"
             >
-              {filteredProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  variants={getCardVariants(index)}
-                  className="group"
+              <div className="bg-zinc-900/50 backdrop-blur-sm p-8 rounded-2xl border border-zinc-800 max-w-lg mx-auto">
+                <h3 className="text-2xl font-light text-white mb-4">
+                  Bu kategoride henüz proje bulunmuyor
+                </h3>
+                <p className="text-zinc-400 mb-8">
+                  Çok yakında bu kategoride de projelerimizi sizlerle paylaşacağız.
+                </p>
+                <button
+                  onClick={() => setSelectedCategory('all')}
+                  className="px-6 py-3 bg-white text-black rounded-full hover:bg-zinc-100 transition-colors duration-300"
                 >
-                  <Link href={`/projects/${project.category}/${project.id}`}>
-                    <div className={`flex flex-col md:flex-row gap-8 items-center ${
-                      index % 2 === 1 ? 'md:flex-row-reverse' : ''
-                    }`}>
-                      {/* Project Image */}
-                      <div className="w-full md:w-1/2">
-                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                          />
-                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-                      </div>
-
-                      {/* Project Info */}
-                      <div className="w-full md:w-1/2 space-y-6">
-                        <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-900 text-white">
-                          {categories[project.category]}
-                        </span>
-                        
-                        <h2 className="text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
-                          {project.title}
-                        </h2>
-                        
-                        <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
-                          {project.description}
-                        </p>
-
-                        <div className="flex items-center text-white gap-2 pt-4">
-                          <span className="font-medium">Detayları Gör</span>
-                          <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                  Tüm Projeleri Görüntüle
+                </button>
+              </div>
             </motion.div>
-          </AnimatePresence>
+          )}
         </div>
       </section>
     </div>

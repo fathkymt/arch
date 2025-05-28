@@ -263,5 +263,5 @@ export const projects = [
  export const categories = {
   mimari: 'Mimari Projeler',
   'ic-mimari': 'İç Mimari Projeler',
-  peyzaj: 'Peyzaj Projeleri'
+  kamu: 'Kamu Projeleri'
  };

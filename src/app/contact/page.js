@@ -5,7 +5,7 @@ import styles from '@/styles/ContactBackground.module.css';
 
 const contactInfo = [
   {
-    icon: <MapPin className="w-6 h-6" />,
+    icon: <MapPin className="w-6 h-6 text-white" />,
     title: "Adres",
     details: [
       "Melikşah Mah. Hocafakıh Cad.",
@@ -16,19 +16,21 @@ const contactInfo = [
     delay: 0.2
   },
   {
-    icon: <Phone className="w-6 h-6" />,
+    icon: <Phone className="w-6 h-6 text-white" />,
     title: "Telefon",
     details: ["+90 507 267 63 79", "+90 506 770 42 72"],
+    links: ["tel:+905072676379", "tel:+905067704272"],
     delay: 0.3
   },
   {
-    icon: <Mail className="w-6 h-6" />,
+    icon: <Mail className="w-6 h-6 text-white" />,
     title: "E-posta",
     details: ["info@espluspartners.com"],
+    link: "mailto:info@espluspartners.com",
     delay: 0.4
   },
   {
-    icon: <Clock className="w-6 h-6" />,
+    icon: <Clock className="w-6 h-6 text-white" />,
     title: "Çalışma Saatleri",
     details: ["Pazartesi - Cuma: 09:00 - 18:00", "Cumartesi: 10:00 - 14:00"],
     delay: 0.5
@@ -38,34 +40,44 @@ const contactInfo = [
 const ContactCard = ({ info }) => {
   const content = (
     <>
-      <div className={styles.iconWrapper}>
+      <div className="bg-zinc-800 rounded-full p-4 inline-flex items-center justify-center">
         {info.icon}
       </div>
-      <h3 className="text-xl font-medium text-gray-800 mt-4 mb-2">
+      <h3 className="text-xl font-medium text-white mt-4 mb-2">
         {info.title}
       </h3>
       {info.details.map((detail, index) => (
-        <p key={index} className="text-gray-600">
-          {detail}
+        <p key={index} className="text-white/80">
+          {info.links ? (
+            <a 
+              href={info.links[index]} 
+              className="hover:text-white transition-colors duration-300"
+            >
+              {detail}
+            </a>
+          ) : (
+            detail
+          )}
         </p>
       ))}
     </>
   );
 
-  if (info.link) {
+  if (info.link || info.links) {
+    const Component = info.links ? 'div' : motion.a;
+    const props = info.links ? {} : {
+      href: info.link,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    };
+
     return (
-      <motion.a
-        href={info.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: info.delay }}
-        viewport={{ once: true }}
-        className={`${styles.contactCard} p-6 rounded-xl block hover:shadow-lg transition-shadow`}
+      <Component
+        {...props}
+        className="bg-zinc-800 border border-zinc-700 p-6 rounded-xl block hover:bg-zinc-700 transition-all duration-300 hover:border-zinc-600"
       >
         {content}
-      </motion.a>
+      </Component>
     );
   }
 
@@ -75,7 +87,7 @@ const ContactCard = ({ info }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: info.delay }}
       viewport={{ once: true }}
-      className={`${styles.contactCard} p-6 rounded-xl`}
+      className="bg-zinc-800 border border-zinc-700 p-6 rounded-xl"
     >
       {content}
     </motion.div>
@@ -84,7 +96,7 @@ const ContactCard = ({ info }) => {
 
 export default function ContactPage() {
   return (
-    <div className="relative">
+    <div className="relative min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative h-[50vh] projects-bg">
         <div className="texture-container">
@@ -123,9 +135,9 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl font-light mb-12"
+              className="text-3xl font-light mb-12 text-white"
             >
-              <span className="text-gray-400">01 /</span> İletişim Bilgilerimiz
+              <span className="text-zinc-500">01 /</span> İletişim Bilgilerimiz
             </motion.h2>
             <div className="grid sm:grid-cols-2 gap-6">
               {contactInfo.map((info, index) => (
@@ -141,16 +153,16 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl font-light mb-12"
+              className="text-3xl font-light mb-12 text-white"
             >
-              <span className="text-gray-400">02 /</span> Konum
+              <span className="text-zinc-500">02 /</span> Konum
             </motion.h2>
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className={`${styles.mapContainer} rounded-xl overflow-hidden h-[400px]`}
+              className={`${styles.mapContainer} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden h-[400px]`}
             >
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.5228190788457!2d32.462834900000004!3d37.871454299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d08531860adcb3%3A0x5f116f4d0c50ad1c!2sES%2BPartners%20Mimarl%C4%B1k!5e0!3m2!1sen!2str!4v1748353608114!5m2!1sen!2str"

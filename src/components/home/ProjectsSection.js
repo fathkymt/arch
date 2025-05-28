@@ -19,7 +19,7 @@ const projects = [
     title: 'Ekolojik Yaşam Merkezi',
     description: 'Sürdürülebilir malzemeler kullanılarak tasarlanan topluluk yaşam alanı',
     image: '/images/projects/palmares/1.png',
-    category: 'peyzaj',
+    category: 'kamu',
     technologies: ['Ekolojik Tasarım', 'Yeşil Çatı', 'Yağmur Hasadı']
   },
   {

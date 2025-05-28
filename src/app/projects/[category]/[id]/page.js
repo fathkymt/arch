@@ -179,7 +179,7 @@ export default function ProjectDetail({ params }) {
             initial="hidden"
             animate="show"
           >
-            {project.detailImages.map((image, index) => (
+            {[project.image, ...project.detailImages].map((image, index) => (
               <motion.div
                 key={index}
                 className="relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-neutral-800 hover:border-neutral-700 transition-colors"

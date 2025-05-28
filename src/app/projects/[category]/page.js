@@ -11,7 +11,7 @@ const getCategoryDescription = (category) => {
   const descriptions = {
     'mimari': 'Modern ve sürdürülebilir mimari projelerimiz',
     'ic-mimari': 'Fonksiyonel ve estetik iç mimari tasarımlarımız',
-    'peyzaj': 'Doğayla uyumlu peyzaj düzenleme projelerimiz'
+    'kamu': 'Kamu kurumları için geliştirdiğimiz özel projelerimiz'
   };
   return descriptions[category] || '';
 };
