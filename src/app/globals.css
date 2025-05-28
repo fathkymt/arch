@@ -3,6 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Capricho';
+  src: url('/fonts/Capricho-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --brown-50: #fdf8f6;
   --brown-100: #f2e8e5;

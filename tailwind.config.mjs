@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-capricho)', 'sans-serif'],
+      },
       colors: {
         brown: {
           50: '#fdf8f6',

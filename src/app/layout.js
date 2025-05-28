@@ -1,14 +1,13 @@
 // src/app/layout.js
-import { Roboto } from 'next/font/google';
+import localFont from 'next/font/local';
 import Navbar from '../components/layout/Navbar';
 import WhiteLogo from '../components/layout/WhiteLogo';
 import Footer from '../components/layout/Footer';
 import './globals.css';
 
-const roboto = Roboto({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
+const capricho = localFont({
+  src: '../../public/fonts/Capricho-Light.otf',
+  variable: '--font-capricho',
 });
 
 export const metadata = {
@@ -18,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" className={roboto.className}>
+    <html lang="tr" className={`${capricho.variable}`}>
       <body suppressHydrationWarning>
         <Navbar />
         <WhiteLogo />
