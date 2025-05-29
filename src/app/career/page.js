@@ -46,7 +46,6 @@ export default function CareerPage() {
           <div className="metal-grain" />
           <div className="fabric-texture" />
           <div className="fine-details" />
-          <div className="surface-highlights" />
         </div>
         <div className="absolute inset-0">
           <div className="container mx-auto h-full flex flex-col justify-center px-6 pt-12 md:pt-0">

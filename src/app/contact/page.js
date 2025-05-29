@@ -104,7 +104,6 @@ export default function ContactPage() {
           <div className="metal-grain" />
           <div className="fabric-texture" />
           <div className="fine-details" />
-          <div className="surface-highlights" />
         </div>
         <div className="absolute inset-0">
           <div className="container mx-auto h-full flex items-center justify-center px-6">

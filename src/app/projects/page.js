@@ -66,7 +66,6 @@ const ProjectsPage = () => {
           <div className="metal-grain" />
           <div className="fabric-texture" />
           <div className="fine-details" />
-          <div className="surface-highlights" />
         </div>
         <div className="relative z-10 container mx-auto px-4 pt-32 pb-16 sm:px-6 lg:px-8">
           {/* Hero Section */}

@@ -1,8 +1,8 @@
 /* src/styles/Footer.module.css */
 .footer {
-    background-color: #000000; /* brown-900 */
     color: #f2e8e5; /* brown-100 */
     padding: 4rem 0 0;
+    position: relative;
   }
   
   .footerContent {
@@ -13,6 +13,8 @@
     grid-template-columns: repeat(1, 1fr);
     gap: 2rem;
     text-align: center;
+    position: relative;
+    z-index: 20;
   }
   
   .brandSection {
@@ -201,8 +203,7 @@
       width: 260px;
       height: auto;
     }
-  }
-  
+  }  
   /* Hover Efektleri */
   .contactItem a:hover,
   .socialLink:hover {

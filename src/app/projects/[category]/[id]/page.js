@@ -3,12 +3,14 @@ import { useState, useEffect, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Grid, ArrowRight } from 'lucide-react';
+import { MapPin, Calendar, Grid, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { projects } from '@/data/projects';
 import styles from '@/styles/ProjectBackgroundPattern.module.css';
 
 export default function ProjectDetail({ params }) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [project, setProject] = useState(null);
 
@@ -20,6 +22,55 @@ export default function ProjectDetail({ params }) {
     setProject(foundProject);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
+
+  const handleImageClick = (image, index) => {
+    setSelectedImage(image);
+    setSelectedImageIndex(index);
+  };
+
+  const handlePrevImage = () => {
+    const allImages = [project.image, ...project.detailImages];
+    const newIndex = (selectedImageIndex - 1 + allImages.length) % allImages.length;
+    setSelectedImage(allImages[newIndex]);
+    setSelectedImageIndex(newIndex);
+  };
+
+  const handleNextImage = () => {
+    const allImages = [project.image, ...project.detailImages];
+    const newIndex = (selectedImageIndex + 1) % allImages.length;
+    setSelectedImage(allImages[newIndex]);
+    setSelectedImageIndex(newIndex);
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!touchStart) return;
+
+    const touchEnd = e.touches[0].clientX;
+    const diff = touchStart - touchEnd;
+
+    if (Math.abs(diff) > 50) { // minimum swipe distance
+      if (diff > 0) {
+        handleNextImage();
+      } else {
+        handlePrevImage();
+      }
+      setTouchStart(0);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      handlePrevImage();
+    } else if (e.key === 'ArrowRight') {
+      handleNextImage();
+    } else if (e.key === 'Escape') {
+      setSelectedImage(null);
+    }
+  };
 
   if (!isMounted || !project) return null;
 
@@ -184,7 +235,7 @@ export default function ProjectDetail({ params }) {
                 key={index}
                 className="relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-neutral-800 hover:border-neutral-700 transition-colors"
                 whileHover={{ scale: 1.02 }}
-                onClick={() => setSelectedImage(image)}
+                onClick={() => handleImageClick(image, index)}
                 variants={fadeIn}
               >
                 <Image
@@ -228,7 +279,13 @@ export default function ProjectDetail({ params }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setSelectedImage(null);
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
           >
             <motion.div
               initial={{ scale: 0.9 }}
@@ -242,6 +299,33 @@ export default function ProjectDetail({ params }) {
                 fill
                 className="object-contain"
               />
+              
+              {/* Navigation Arrows - Only on Desktop */}
+              <div className="hidden md:block">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrevImage();
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNextImage();
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/50 text-white text-sm">
+                {selectedImageIndex + 1} / {[project.image, ...project.detailImages].length}
+              </div>
             </motion.div>
           </motion.div>
         )}

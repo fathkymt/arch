@@ -8,8 +8,14 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.footerContent}>
+    <footer className={`${styles.footer} projects-bg relative`}>
+      <div className="texture-container">
+        <div className="metal-base" />
+        <div className="metal-grain" />
+        <div className="fabric-texture" />
+        <div className="fine-details" />
+      </div>
+      <div className={`${styles.footerContent} relative z-20`}>
         <div className={styles.brandSection}>
           <Link href="/">
             <Image
