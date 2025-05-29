@@ -10,7 +10,6 @@ import styles from '@/styles/ProjectBackgroundPattern.module.css';
 export default function ProjectDetail({ params }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [project, setProject] = useState(null);
 
@@ -40,26 +39,6 @@ export default function ProjectDetail({ params }) {
     const newIndex = (selectedImageIndex + 1) % allImages.length;
     setSelectedImage(allImages[newIndex]);
     setSelectedImageIndex(newIndex);
-  };
-
-  const handleTouchStart = (e) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!touchStart) return;
-
-    const touchEnd = e.touches[0].clientX;
-    const diff = touchStart - touchEnd;
-
-    if (Math.abs(diff) > 50) { // minimum swipe distance
-      if (diff > 0) {
-        handleNextImage();
-      } else {
-        handlePrevImage();
-      }
-      setTouchStart(0);
-    }
   };
 
   const handleKeyDown = (e) => {
@@ -103,14 +82,14 @@ export default function ProjectDetail({ params }) {
       {/* Navigation Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div className="container mx-auto px-4">
-          <div className="h-20 flex items-center justify-between">
+          <div className="h-24 flex items-center justify-between">
             {/* Sol taraf - Hamburger menu için boş bırakılıyor */}
             <div className="w-12">
               {/* Hamburger menu buraya gelecek */}
             </div>
 
             {/* Orta kısım - Navigation butonları */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 translate-y-1 translate-x-4">
               <Link
                 href="/projects"
                 className="group relative px-4 py-2 text-sm text-white/90 hover:text-white transition-colors"
@@ -278,55 +257,92 @@ export default function ProjectDetail({ params }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setSelectedImage(null);
-            }}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onKeyDown={handleKeyDown}
-            tabIndex={0}
+            className="fixed inset-0 z-50 bg-black/95 md:p-4"
           >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="relative w-full max-w-5xl aspect-video"
+            {/* Desktop View */}
+            <div 
+              className="hidden md:flex h-full items-center justify-center"
+              onClick={() => setSelectedImage(null)}
             >
-              <Image
-                src={selectedImage}
-                alt="Büyük görüntü"
-                fill
-                className="object-contain"
-              />
-              
-              {/* Navigation Arrows - Only on Desktop */}
-              <div className="hidden md:block">
+              <div 
+                className="relative max-w-5xl aspect-video w-full"
+                onClick={e => e.stopPropagation()}
+              >
+                <Image
+                  src={selectedImage}
+                  alt="Büyük görüntü"
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                  priority
+                />
+                
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePrevImage();
-                  }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110"
+                  onClick={handlePrevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110 z-10"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNextImage();
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110"
+                  onClick={handleNextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white/90 hover:text-white transition-all transform hover:scale-110 z-10"
                 >
                   <ChevronRight size={24} />
                 </button>
+
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/50 text-white text-sm z-10">
+                  {selectedImageIndex + 1} / {[project.image, ...project.detailImages].length}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile View */}
+            <div className="md:hidden h-full flex flex-col">
+              {/* Top Close Area */}
+              <div 
+                className="flex-1"
+                onClick={() => setSelectedImage(null)}
+              />
+              
+              {/* Image Container */}
+              <div className="w-full h-[50vh] relative">
+                <Image
+                  src={selectedImage}
+                  alt="Büyük görüntü"
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                  priority
+                />
+
+                {/* Navigation Controls */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-between px-4 z-10 pointer-events-none">
+                  <button
+                    onClick={handlePrevImage}
+                    className="p-3 rounded-full bg-black/50 text-white pointer-events-auto"
+                  >
+                    <ChevronLeft size={28} />
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="p-3 rounded-full bg-black/50 text-white pointer-events-auto"
+                  >
+                    <ChevronRight size={28} />
+                  </button>
+                </div>
+
+                {/* Image Counter */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/50 text-white text-sm z-10">
+                  {selectedImageIndex + 1} / {[project.image, ...project.detailImages].length}
+                </div>
               </div>
 
-              {/* Image Counter */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/50 text-white text-sm">
-                {selectedImageIndex + 1} / {[project.image, ...project.detailImages].length}
-              </div>
-            </motion.div>
+              {/* Bottom Close Area */}
+              <div 
+                className="flex-1"
+                onClick={() => setSelectedImage(null)}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
