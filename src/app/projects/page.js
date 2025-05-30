@@ -4,8 +4,8 @@ import { projects, categories } from '@/data/projects';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from '@/styles/ProjectBackgroundPattern.module.css';
 import { ArrowRight } from 'lucide-react';
+import ProjectCard from '@/components/projects/ProjectCard';
 
 const ProjectsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');

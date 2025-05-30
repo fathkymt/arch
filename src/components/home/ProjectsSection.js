@@ -52,8 +52,9 @@ const ProjectsSection = () => {
 
   return (
     <section className={sectionStyles.projectsSection}>
-      <div className={backgroundStyles.container} />
-      <div className={backgroundStyles.overlay} />
+      <div className={sectionStyles.metalGrain} />
+      <div className={sectionStyles.fineDetails} />
+      <div className={sectionStyles.surfaceHighlights} />
       
       <h2 className={sectionStyles.sectionTitle}>Örnek Projeler</h2>
       

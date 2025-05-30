@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Grid, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { projects } from '@/data/projects';
-import styles from '@/styles/ProjectBackgroundPattern.module.css';
 
 export default function ProjectDetail({ params }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -77,7 +76,7 @@ export default function ProjectDetail({ params }) {
   return (
     <div className="relative min-h-screen bg-black">
       {/* Background Pattern */}
-      <div className={styles.backgroundContainer} />
+      <div className="absolute inset-0 bg-[#111111] z-[-1]" />
 
       {/* Navigation Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
@@ -132,7 +131,7 @@ export default function ProjectDetail({ params }) {
       </motion.div>
 
       {/* Content Section */}
-      <div className="relative z-10 px-4 -mt-32 max-w-7xl mx-auto">
+      <div className="relative z-10 px-4 -mt-32 pb-12 max-w-7xl mx-auto">
         <motion.div 
           className="bg-neutral-900/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl border border-neutral-800"
           initial={{ opacity: 0, y: 50 }}

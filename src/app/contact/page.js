@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import styles from '@/styles/ContactBackground.module.css';
 
 const contactInfo = [
   {
@@ -161,7 +160,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className={`${styles.mapContainer} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden h-[400px]`}
+              className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-xl overflow-hidden h-[400px]"
             >
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.5228190788457!2d32.462834900000004!3d37.871454299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d08531860adcb3%3A0x5f116f4d0c50ad1c!2sES%2BPartners%20Mimarl%C4%B1k!5e0!3m2!1sen!2str!4v1748353608114!5m2!1sen!2str"

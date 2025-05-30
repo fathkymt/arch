@@ -184,24 +184,46 @@
     }
 
     .footerContent {
-      grid-template-columns: 2fr 1fr 1.5fr 1fr;
-      padding: 0 4rem;
-      margin-left: -0.25rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr 1fr 0.9fr;
+      max-width: 1280px;
+      width: 100%;
+      padding: 0 6rem;
+      margin: 0 auto;
       text-align: left;
-      gap: 3rem;
+      gap: 2.5rem;
+      align-items: start;
+      min-height: 280px;
     }
 
     .brandSection {
-      padding-left: 7rem;
+      padding-left: 0;
       margin-top: -2rem;
       justify-content: flex-start;
       position: relative;
       top: 0;
+      max-width: 220px;
     }
 
     .logo {
-      width: 260px;
+      width: 100%;
       height: auto;
+      object-fit: contain;
+    }
+
+    .linksSection, 
+    .contactSection, 
+    .socialSection {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 1rem;
+      min-width: 0;
+      transform: translateY(-2rem);
+    }
+
+    .socialSection {
+      margin-left: 0;
     }
   }  
   /* Hover Efektleri */

@@ -11,7 +11,7 @@ const capricho = localFont({
 });
 
 export const metadata = {
-  title: 'Ahşap Mimarisi | Modern Tasarım',
+  title: 'Es+Partner | Mimarlık',
   description: 'Modern tasarımla geleneksel ahşap dokunuşunu birleştiren mimarlık ofisi',
 };
 

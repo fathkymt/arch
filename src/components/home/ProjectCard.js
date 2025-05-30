@@ -18,7 +18,7 @@ const ProjectCard = ({ project, isVisible }) => {
   return (
     <Link
       href={`/projects/${project.category}/${project.id}`}
-      className="relative group/pin z-50 cursor-pointer block h-[600px]"
+      className="relative group/pin z-50 cursor-pointer block h-[750px]"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -36,12 +36,15 @@ const ProjectCard = ({ project, isVisible }) => {
           className="absolute left-1/2 top-1/2 w-[450px] md:w-[450px] w-[calc(100vw-3rem)] rounded-xl overflow-hidden transition-all duration-700 bg-gradient-to-b from-neutral-900 to-neutral-800 border border-white/10 shadow-lg shadow-black/20"
         >
           <div className="relative z-50">
-            <div className="relative w-full h-[300px] group-hover/pin:opacity-90 transition-opacity duration-300">
+            <div className="relative w-full h-[350px] group-hover/pin:opacity-90 transition-opacity duration-300">
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 450px"
+                style={{ objectPosition: 'center center' }}
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-transparent to-transparent" />
             </div>
@@ -53,7 +56,7 @@ const ProjectCard = ({ project, isVisible }) => {
               <h3 className="text-2xl font-bold text-white mb-3 group-hover/pin:text-emerald-400 transition-colors">
                 {project.title}
               </h3>
-              <p className="text-gray-300 text-base leading-relaxed">
+              <p className="text-gray-300 text-base leading-relaxed min-h-[3em]">
                 {project.description}
               </p>
               {project.technologies && (
@@ -73,7 +76,7 @@ const ProjectCard = ({ project, isVisible }) => {
         </div>
       </div>
 
-      <motion.div className="pointer-events-none w-full h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500">
+      <motion.div className="pointer-events-none w-full h-96 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500">
         <div className="w-full h-full -mt-7 flex-none inset-0">
           <div className="absolute top-0 inset-x-0 flex justify-center">
             <motion.span
@@ -90,7 +93,7 @@ const ProjectCard = ({ project, isVisible }) => {
           <div
             style={{
               perspective: "1000px",
-              transform: "rotateX(70deg) translateZ(0)",
+              transform: "rotateX(70deg) translateZ(0deg)",
             }}
             className="absolute left-1/2 top-1/2 ml-[0.09375rem] mt-4 -translate-x-1/2 -translate-y-1/2"
           >

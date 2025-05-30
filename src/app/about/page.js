@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Building2, PaintBucket, Trees } from 'lucide-react';
-import styles from '@/styles/AboutBackground.module.css';
 import React from 'react';
 import Link from 'next/link';
 
@@ -63,21 +62,24 @@ const ServiceCard = ({ service, index }) => (
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.2 }}
-      className={`${styles.serviceCard} bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 p-8 rounded-xl cursor-pointer hover:border-zinc-700 transition-all duration-300 hover:-translate-y-1`}
+      className="group bg-white backdrop-blur-sm border border-white/10 p-8 rounded-xl cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-full relative"
     >
-      <div className={styles.iconContainer}>
-        {React.cloneElement(service.icon, { className: "text-zinc-400" })}
+      <div className="absolute inset-x-0 top-0 w-full h-[4px]">
+        <div className="w-full h-full bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
       </div>
-      <h3 className="text-2xl font-medium mb-4 text-gray-900">
+      <div className="bg-white rounded-lg p-4 inline-flex items-center justify-center shadow-md -translate-y-1">
+        {React.cloneElement(service.icon, { className: "text-gray-700" })}
+      </div>
+      <h3 className="text-2xl font-medium mb-4 text-gray-900 mt-4">
         {service.title}
       </h3>
-      <p className="text-zinc-400 leading-relaxed mb-6 flex-grow">
+      <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
         {service.description}
       </p>
       <ul className="space-y-2">
         {service.features.map((feature, i) => (
-          <li key={i} className="text-zinc-500 flex items-center text-sm">
-            <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mr-2" />
+          <li key={i} className="text-gray-500 flex items-center text-sm">
+            <div className="w-1.5 h-1.5 rounded-full bg-gray-300 mr-2" />
             {feature}
           </li>
         ))}
@@ -88,7 +90,7 @@ const ServiceCard = ({ service, index }) => (
 
 export default function AboutPage() {
   return (
-    <main className={styles.background}>
+    <main className="relative min-h-screen bg-black">
       {/* Hero Section */}
       <section className="relative h-[70vh] md:h-[90vh] lg:h-screen w-full">
         <Image
@@ -98,8 +100,8 @@ export default function AboutPage() {
           className="object-cover object-[22%_center]"
           priority
         />
-        <div className={`absolute inset-0 ${styles.heroOverlay}`}>
-          <div className="container mx-auto h-full flex items-end md:items-center justify-center px-6 pb-10 md:pb-0 md:mt-80">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black">
+          <div className="container mx-auto h-full flex items-end px-6 pb-20 md:pb-24 lg:pb-32">
             <motion.div 
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -168,7 +170,7 @@ export default function AboutPage() {
           <div className="fine-details" />
         </div>
         <div className="relative z-10 container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-          <div className="max-w-6xl">
+          <div className="max-w-6xl mx-auto">
             <motion.h2 
               className="text-4xl font-light mb-16 text-white text-center"
               initial={{ opacity: 0, y: 20 }}

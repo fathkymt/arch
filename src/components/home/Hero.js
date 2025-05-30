@@ -63,7 +63,9 @@ const Hero = () => {
             src={slide.image}
             alt={slide.title}
             fill
-            className="object-cover"
+            className={`object-cover ${
+              index === 3 ? 'md:object-center object-[85%_center]' : 'object-center'
+            }`}
             priority={index === 0}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent" />

@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
-import styles from '@/styles/ProjectBackgroundPattern.module.css';
 import { use } from 'react';
 
 const getCategoryDescription = (category) => {
@@ -40,9 +39,13 @@ export default function CategoryPage({ params }) {
   }
 
   return (
-    <div className="relative min-h-screen bg-black">
-      {/* Background Pattern */}
-      <div className={styles.backgroundContainer} />
+    <div className="relative min-h-screen projects-bg">
+      <div className="texture-container">
+        <div className="metal-base" />
+        <div className="metal-grain" />
+        <div className="fabric-texture" />
+        <div className="fine-details" />
+      </div>
 
       <div className="relative z-10 container mx-auto px-4 py-16 sm:px-6 lg:px-8">
         {/* Header Section */}
@@ -51,10 +54,11 @@ export default function CategoryPage({ params }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="pt-12 sm:pt-0"
           >
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all duration-300 mb-8 group"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all duration-300 mb-8 group"
             >
               <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform duration-300" />
               <span>Tüm Projeler</span>
