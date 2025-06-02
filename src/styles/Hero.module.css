@@ -1,3 +1,12 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .content {
   @apply relative z-10 flex flex-col items-center justify-center h-full text-center px-4;
   position: relative;
@@ -9,15 +18,23 @@
 }
 
 .slide {
-  @apply relative min-w-full h-full;
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
-  animation: none;
+  transform: scale(1.1);
+  transition: none;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .slide.active {
   opacity: 1;
-  animation: dustIn 1s ease-out forwards;
+  transform: scale(1);
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .slide.leaving {
@@ -25,17 +42,28 @@
 }
 
 .indicators {
-  @apply absolute top-1/2 right-8 -translate-y-1/2 flex flex-col gap-2;
+  position: fixed;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   z-index: 10;
 }
 
 .indicator {
-  @apply w-3 h-3 rounded-full bg-white/50 cursor-pointer;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .indicatorActive {
-  @apply bg-white scale-125;
+  background-color: white;
+  transform: scale(1.25);
 }
 
 @keyframes dustOut {
