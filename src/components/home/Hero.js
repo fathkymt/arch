@@ -104,7 +104,7 @@ const Hero = () => {
     if (startYRef.current === null || !canStartNewTransition) return;
 
     const diff = startYRef.current - e.clientY;
-    const threshold = window.innerHeight * 0.15;
+    const threshold = window.innerHeight * 0.45;
     
     if (e.cancelable) {
       e.preventDefault();
@@ -113,7 +113,7 @@ const Hero = () => {
     if (nextSlide !== null) {
       const progress = Math.abs(diff) / threshold;
       setScrollProgress(prev => {
-        const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
+        const newProgress = Math.min(Math.max(prev + progress * 0.4, 0), 1);
         progressRef.current = newProgress;
         
         if (newProgress >= 1) {
@@ -124,7 +124,7 @@ const Hero = () => {
         return newProgress;
       });
     } else {
-      if (Math.abs(diff) > 10) {
+      if (Math.abs(diff) > 25) {
         if (diff > 0 && currentSlide < slides.length - 1) {
           setNextSlide(currentSlide + 1);
         } else if (diff < 0 && currentSlide > 0) {
