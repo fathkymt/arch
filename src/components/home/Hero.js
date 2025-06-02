@@ -80,6 +80,8 @@ const Hero = () => {
     const handleTouchMove = (e) => {
       if (!startY) return;
       
+      e.preventDefault(); // Native scroll'u engelle
+      
       const currentY = e.touches[0].clientY;
       const diff = startY - currentY;
       
@@ -124,9 +126,9 @@ const Hero = () => {
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchmove', handleTouchMove);
-    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
