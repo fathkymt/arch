@@ -101,25 +101,6 @@ export default function AboutPage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black">
-          <div className="container mx-auto h-full flex items-end px-6 pb-20 md:pb-24 lg:pb-32">
-            <motion.div 
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="w-full max-w-5xl mx-auto text-center"
-            >
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight whitespace-nowrap mx-auto">
-                <span className="md:hidden">
-                  Mimari Vizyonunuzu
-                  <br />
-                  <span className="font-light">Gerçeğe Dönüştürüyoruz</span>
-                </span>
-                <span className="hidden md:inline">
-                  <span className="font-light">Mimari Vizyonunuzu Gerçeğe Dönüştürüyoruz</span>
-                </span>
-              </h1>
-            </motion.div>
-          </div>
         </div>
       </section>
 

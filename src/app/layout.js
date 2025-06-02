@@ -10,7 +10,6 @@ const questrial = localFont({
 
 export const metadata = {
   title: 'ES+Partners | Mimarlık',
-  description: 'Modern tasarımla geleneksel ahşap dokunuşunu birleştiren mimarlık ofisi',
 };
 
 export default function RootLayout({ children }) {

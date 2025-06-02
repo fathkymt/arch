@@ -4,8 +4,7 @@ import { projects, categories } from '@/data/projects';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import ProjectCard from '@/components/projects/ProjectCard';
+import { MapPin, Calendar } from 'lucide-react';
 
 const ProjectsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -15,7 +14,6 @@ const ProjectsPage = () => {
     setIsMounted(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // URL'den kategori parametresini al
     const urlParams = new URLSearchParams(window.location.search);
     const categoryFromUrl = urlParams.get('selectedCategory');
     if (categoryFromUrl) {
@@ -34,29 +32,27 @@ const ProjectsPage = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3
+        staggerChildren: 0.2
       }
     }
   };
 
-  const getCardVariants = (index) => ({
+  const itemVariants = {
     hidden: { 
       opacity: 0,
-      x: index % 2 === 0 ? -100 : 100,
-      rotateY: index % 2 === 0 ? -10 : 10
+      y: 20
     },
     show: { 
       opacity: 1,
-      x: 0,
-      rotateY: 0,
+      y: 0,
       transition: {
         type: "spring",
         stiffness: 100,
         damping: 15,
-        duration: 0.8
+        duration: 0.5
       }
     }
-  });
+  };
 
   return (
     <div className="relative min-h-screen">
@@ -115,7 +111,7 @@ const ProjectsPage = () => {
             ))}
           </motion.div>
 
-          {/* Projects List or Empty State */}
+          {/* Projects Grid */}
           {filteredProjects.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.div 
@@ -123,49 +119,47 @@ const ProjectsPage = () => {
                 variants={containerVariants}
                 initial="hidden"
                 animate="show"
-                className="max-w-7xl mx-auto space-y-24"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto"
               >
-                {filteredProjects.map((project, index) => (
+                {filteredProjects.map((project) => (
                   <motion.div
                     key={project.id}
-                    variants={getCardVariants(index)}
-                    className="group"
+                    variants={itemVariants}
+                    className="group h-full"
                   >
-                    <Link href={`/projects/${project.category}/${project.id}`}>
-                      <div className={`flex flex-col md:flex-row gap-8 items-center ${
-                        index % 2 === 1 ? 'md:flex-row-reverse' : ''
-                      }`}>
+                    <Link href={`/projects/${project.category}/${project.id}`} className="block h-full">
+                      <div className="bg-zinc-900/30 rounded-2xl overflow-hidden h-full">
                         {/* Project Image */}
-                        <div className="w-full md:w-1/2">
-                          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                            <Image
-                              src={project.image}
-                              alt={project.title}
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                            />
-                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                          </div>
+                        <div className="relative aspect-[16/10] w-full overflow-hidden">
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="object-cover transition-all duration-500 group-hover:scale-110 filter grayscale group-hover:grayscale-0"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
 
                         {/* Project Info */}
-                        <div className="w-full md:w-1/2 space-y-6">
-                            <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-900 text-white">
+                        <div className="p-6 space-y-3">
+                          <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-800 text-white">
                             {categories[project.category]}
                           </span>
                           
-                          <h2 className="text-3xl font-bold text-white group-hover:text-gray-200 transition-colors">
+                          <h2 className="text-xl font-medium text-white group-hover:text-gray-200 transition-colors">
                             {project.title}
                           </h2>
                           
-                          <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors">
-                            {project.description}
-                          </p>
-
-                          <div className="flex items-center text-white gap-2 pt-4">
-                            <span className="font-medium">Detayları Gör</span>
-                            <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
+                          <div className="flex items-center gap-4 text-gray-400 text-sm">
+                            <div className="flex items-center gap-1.5">
+                              <MapPin size={14} />
+                              <span>{project.location}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <Calendar size={14} />
+                              <span>{project.date}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
