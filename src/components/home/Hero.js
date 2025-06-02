@@ -26,43 +26,43 @@ const Hero = () => {
     } 
   ];
 
-  // Geçiş tamamlandığında çağrılacak fonksiyon
   const handleTransitionComplete = () => {
     setCurrentSlide(nextSlide);
     setNextSlide(null);
     setScrollProgress(0);
     setCanStartNewTransition(false);
-    
-    // 500ms sonra yeni geçişlere izin ver
     setTimeout(() => {
       setCanStartNewTransition(true);
     }, 500);
   };
 
   useEffect(() => {
-    let startY = 0;
-    let startTime = 0;
-    const threshold = window.innerHeight * 0.15; // Ekran yüksekliğinin %15'i
-    
+    if (scrollProgress > 0.7 && nextSlide !== null) {
+      setVisualSlide(nextSlide);
+    } else if (scrollProgress === 0) {
+      setVisualSlide(currentSlide);
+    }
+  }, [scrollProgress, nextSlide, currentSlide]);
+
+  useEffect(() => {
+    let startY = null;
+    const threshold = window.innerHeight * 0.15;
+
     const handleWheel = (e) => {
       e.preventDefault();
-      
+
       if (nextSlide !== null) {
-        // Eğer geçiş zaten başladıysa, progress'i güncelle
         const progress = Math.abs(e.deltaY) / threshold;
         setScrollProgress(prev => {
           const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
-          
           if (newProgress >= 1) {
             handleTransitionComplete();
             return 0;
           }
-          
           return newProgress;
         });
       } else if (canStartNewTransition) {
-        // Yeni bir geçiş başlat
-        if (Math.abs(e.deltaY) > 10) { // Daha hassas scroll tetikleme
+        if (Math.abs(e.deltaY) > 10) {
           if (e.deltaY > 0 && currentSlide < slides.length - 1) {
             setNextSlide(currentSlide + 1);
           } else if (e.deltaY < 0 && currentSlide > 0) {
@@ -74,33 +74,26 @@ const Hero = () => {
 
     const handleTouchStart = (e) => {
       startY = e.touches[0].clientY;
-      startTime = Date.now();
     };
 
     const handleTouchMove = (e) => {
-      if (!startY) return;
-      
-      e.preventDefault(); // Native scroll'u engelle
-      
+      if (startY === null) return;
+
       const currentY = e.touches[0].clientY;
       const diff = startY - currentY;
-      
+
       if (nextSlide !== null) {
-        // Eğer geçiş zaten başladıysa, progress'i güncelle
         const progress = Math.abs(diff) / threshold;
         setScrollProgress(prev => {
           const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
-          
           if (newProgress >= 1) {
             handleTransitionComplete();
-            startY = 0;
+            startY = null;
             return 0;
           }
-          
           return newProgress;
         });
       } else if (canStartNewTransition) {
-        // Yeni bir geçiş başlat
         if (Math.abs(diff) > 10) {
           if (diff > 0 && currentSlide < slides.length - 1) {
             setNextSlide(currentSlide + 1);
@@ -112,40 +105,32 @@ const Hero = () => {
     };
 
     const handleTouchEnd = () => {
-      if (nextSlide !== null) {
-        // Eğer geçiş yarıda kaldıysa ve progress yeterince ilerlediyse, geçişi tamamla
-        if (scrollProgress > 0.3) {
-          handleTransitionComplete();
-        } else {
-          // Progress yetersizse geçişi iptal et
-          setNextSlide(null);
-          setScrollProgress(0);
-        }
+      if (nextSlide !== null && scrollProgress > 0.3) {
+        handleTransitionComplete();
+      } else if (nextSlide !== null) {
+        setNextSlide(null);
+        setScrollProgress(0);
       }
-      startY = 0;
+      startY = null;
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+      container.addEventListener('touchstart', handleTouchStart, { passive: true });
+      container.addEventListener('touchmove', handleTouchMove, { passive: true });
+      container.addEventListener('touchend', handleTouchEnd);
+    }
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
+      if (container) {
+        container.removeEventListener('wheel', handleWheel);
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchmove', handleTouchMove);
+        container.removeEventListener('touchend', handleTouchEnd);
+      }
     };
   }, [currentSlide, nextSlide, scrollProgress, slides.length, canStartNewTransition]);
-
-  useEffect(() => {
-    // Progress %70'i geçtiğinde görsel slide'ı güncelle
-    if (scrollProgress > 0.7 && nextSlide !== null) {
-      setVisualSlide(nextSlide);
-    } else if (scrollProgress === 0) {
-      setVisualSlide(currentSlide);
-    }
-  }, [scrollProgress, nextSlide, currentSlide]);
 
   return (
     <div ref={containerRef} className={heroStyles.container}>
