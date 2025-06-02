@@ -1,10 +1,71 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { projects, categories } from '@/data/projects';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { MapPin, Calendar } from 'lucide-react';
+
+const ProjectCard = ({ project }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, {
+    amount: 0.3,
+    once: false
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+        duration: 0.5
+      }}
+      className="group h-full"
+    >
+      <Link href={`/projects/${project.category}/${project.id}`} className="block h-full">
+        <div className="bg-zinc-900/30 rounded-2xl overflow-hidden h-full">
+          {/* Project Image */}
+          <div className="relative aspect-[16/10] w-full overflow-hidden">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-all duration-500 group-hover:scale-110 filter grayscale group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+
+          {/* Project Info */}
+          <div className="p-6 space-y-3">
+            <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-800 text-white">
+              {categories[project.category]}
+            </span>
+            
+            <h2 className="text-xl font-medium text-white group-hover:text-gray-200 transition-colors">
+              {project.title}
+            </h2>
+            
+            <div className="flex items-center gap-4 text-gray-400 text-sm">
+              <div className="flex items-center gap-1.5">
+                <MapPin size={14} />
+                <span>{project.location}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Calendar size={14} />
+                <span>{project.date}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+};
 
 const ProjectsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -26,33 +87,6 @@ const ProjectsPage = () => {
   const filteredProjects = selectedCategory === 'all' 
     ? projects 
     : projects.filter(project => project.category === selectedCategory);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 20
-    },
-    show: { 
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.5
-      }
-    }
-  };
 
   return (
     <div className="relative min-h-screen">
@@ -113,61 +147,11 @@ const ProjectsPage = () => {
 
           {/* Projects Grid */}
           {filteredProjects.length > 0 ? (
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={selectedCategory}
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto"
-              >
-                {filteredProjects.map((project) => (
-                  <motion.div
-                    key={project.id}
-                    variants={itemVariants}
-                    className="group h-full"
-                  >
-                    <Link href={`/projects/${project.category}/${project.id}`} className="block h-full">
-                      <div className="bg-zinc-900/30 rounded-2xl overflow-hidden h-full">
-                        {/* Project Image */}
-                        <div className="relative aspect-[16/10] w-full overflow-hidden">
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            fill
-                            className="object-cover transition-all duration-500 group-hover:scale-110 filter grayscale group-hover:grayscale-0"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-
-                        {/* Project Info */}
-                        <div className="p-6 space-y-3">
-                          <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-800 text-white">
-                            {categories[project.category]}
-                          </span>
-                          
-                          <h2 className="text-xl font-medium text-white group-hover:text-gray-200 transition-colors">
-                            {project.title}
-                          </h2>
-                          
-                          <div className="flex items-center gap-4 text-gray-400 text-sm">
-                            <div className="flex items-center gap-1.5">
-                              <MapPin size={14} />
-                              <span>{project.location}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                              <Calendar size={14} />
-                              <span>{project.date}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1400px] mx-auto">
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
           ) : (
             <motion.div
               initial={{ opacity: 0 }}
