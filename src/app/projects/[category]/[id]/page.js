@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Grid, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { projects } from '@/data/projects';
-import { categories } from '@/data/categories';
+import { projects, categories } from '@/data/projects';
 
 export default function ProjectDetail({ params }) {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -147,7 +146,7 @@ export default function ProjectDetail({ params }) {
                 {...fadeIn}
                 transition={{ delay: 0.4 }}
               >
-                {project.category === 'ic-mimari' ? 'İç Mimari Proje' : project.category === 'mimari' ? 'Mimari Proje' : project.category}
+                {project.category === 'ic-mimari' ? 'İç Mimari Proje' : project.category === 'mimari' ? 'Mimari Proje' : categories[project.category]}
               </motion.span>
               
               <motion.h1 
