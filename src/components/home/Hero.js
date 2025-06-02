@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import heroStyles from '@/styles/Hero.module.css';
 
@@ -10,6 +10,8 @@ const Hero = () => {
   const [canStartNewTransition, setCanStartNewTransition] = useState(true);
   const [visualSlide, setVisualSlide] = useState(0);
   const containerRef = useRef(null);
+  const progressRef = useRef(0);
+  const startYRef = useRef(null);
 
   const slides = [
     {
@@ -26,15 +28,22 @@ const Hero = () => {
     } 
   ];
 
-  const handleTransitionComplete = () => {
-    setCurrentSlide(nextSlide);
-    setNextSlide(null);
-    setScrollProgress(0);
-    setCanStartNewTransition(false);
-    setTimeout(() => {
-      setCanStartNewTransition(true);
-    }, 500);
-  };
+  // Viewport height ayarlama
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    setVh();
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+
+    return () => {
+      window.removeEventListener('resize', setVh);
+      window.removeEventListener('orientationchange', setVh);
+    };
+  }, []);
 
   useEffect(() => {
     if (scrollProgress > 0.7 && nextSlide !== null) {
@@ -44,93 +53,121 @@ const Hero = () => {
     }
   }, [scrollProgress, nextSlide, currentSlide]);
 
-  useEffect(() => {
-    let startY = null;
+  const handleTransitionComplete = useCallback(() => {
+    setCurrentSlide(nextSlide);
+    setNextSlide(null);
+    setScrollProgress(0);
+    progressRef.current = 0;
+    setCanStartNewTransition(false);
+    setTimeout(() => {
+      setCanStartNewTransition(true);
+    }, 500);
+  }, [nextSlide]);
+
+  const handleWheel = useCallback((e) => {
+    if (!canStartNewTransition) return;
+    e.preventDefault();
+
     const threshold = window.innerHeight * 0.15;
+    
+    if (nextSlide !== null) {
+      const progress = Math.abs(e.deltaY) / threshold;
+      setScrollProgress(prev => {
+        const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
+        progressRef.current = newProgress;
+        
+        if (newProgress >= 1) {
+          handleTransitionComplete();
+          return 0;
+        }
+        return newProgress;
+      });
+    } else {
+      if (Math.abs(e.deltaY) > 10) {
+        if (e.deltaY > 0 && currentSlide < slides.length - 1) {
+          setNextSlide(currentSlide + 1);
+        } else if (e.deltaY < 0 && currentSlide > 0) {
+          setNextSlide(currentSlide - 1);
+        }
+      }
+    }
+  }, [canStartNewTransition, currentSlide, nextSlide, slides.length, handleTransitionComplete]);
 
-    const handleWheel = (e) => {
+  const handlePointerDown = useCallback((e) => {
+    if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+    startYRef.current = e.clientY;
+    progressRef.current = 0;
+  }, []);
+
+  const handlePointerMove = useCallback((e) => {
+    if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+    if (startYRef.current === null || !canStartNewTransition) return;
+
+    const diff = startYRef.current - e.clientY;
+    const threshold = window.innerHeight * 0.15;
+    
+    if (e.cancelable) {
       e.preventDefault();
+    }
 
-      if (nextSlide !== null) {
-        const progress = Math.abs(e.deltaY) / threshold;
-        setScrollProgress(prev => {
-          const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
-          if (newProgress >= 1) {
-            handleTransitionComplete();
-            return 0;
-          }
-          return newProgress;
-        });
-      } else if (canStartNewTransition) {
-        if (Math.abs(e.deltaY) > 10) {
-          if (e.deltaY > 0 && currentSlide < slides.length - 1) {
-            setNextSlide(currentSlide + 1);
-          } else if (e.deltaY < 0 && currentSlide > 0) {
-            setNextSlide(currentSlide - 1);
-          }
+    if (nextSlide !== null) {
+      const progress = Math.abs(diff) / threshold;
+      setScrollProgress(prev => {
+        const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
+        progressRef.current = newProgress;
+        
+        if (newProgress >= 1) {
+          handleTransitionComplete();
+          startYRef.current = null;
+          return 0;
+        }
+        return newProgress;
+      });
+    } else {
+      if (Math.abs(diff) > 10) {
+        if (diff > 0 && currentSlide < slides.length - 1) {
+          setNextSlide(currentSlide + 1);
+        } else if (diff < 0 && currentSlide > 0) {
+          setNextSlide(currentSlide - 1);
         }
       }
-    };
+    }
+  }, [canStartNewTransition, currentSlide, nextSlide, slides.length, handleTransitionComplete]);
 
-    const handleTouchStart = (e) => {
-      startY = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e) => {
-      if (startY === null) return;
-
-      const currentY = e.touches[0].clientY;
-      const diff = startY - currentY;
-
-      if (nextSlide !== null) {
-        const progress = Math.abs(diff) / threshold;
-        setScrollProgress(prev => {
-          const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
-          if (newProgress >= 1) {
-            handleTransitionComplete();
-            startY = null;
-            return 0;
-          }
-          return newProgress;
-        });
-      } else if (canStartNewTransition) {
-        if (Math.abs(diff) > 10) {
-          if (diff > 0 && currentSlide < slides.length - 1) {
-            setNextSlide(currentSlide + 1);
-          } else if (diff < 0 && currentSlide > 0) {
-            setNextSlide(currentSlide - 1);
-          }
-        }
-      }
-    };
-
-    const handleTouchEnd = () => {
-      if (nextSlide !== null && scrollProgress > 0.3) {
+  const handlePointerUp = useCallback(() => {
+    if (nextSlide !== null) {
+      if (progressRef.current > 0.3) {
         handleTransitionComplete();
-      } else if (nextSlide !== null) {
+      } else {
         setNextSlide(null);
         setScrollProgress(0);
       }
-      startY = null;
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('wheel', handleWheel, { passive: false });
-      container.addEventListener('touchstart', handleTouchStart, { passive: true });
-      container.addEventListener('touchmove', handleTouchMove, { passive: true });
-      container.addEventListener('touchend', handleTouchEnd);
     }
+    startYRef.current = null;
+    progressRef.current = 0;
+  }, [nextSlide, handleTransitionComplete]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Desktop için wheel event
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Mobile için pointer events
+    container.addEventListener('pointerdown', handlePointerDown);
+    container.addEventListener('pointermove', handlePointerMove, { passive: false });
+    container.addEventListener('pointerup', handlePointerUp);
+    container.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
-      if (container) {
-        container.removeEventListener('wheel', handleWheel);
-        container.removeEventListener('touchstart', handleTouchStart);
-        container.removeEventListener('touchmove', handleTouchMove);
-        container.removeEventListener('touchend', handleTouchEnd);
-      }
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('pointerdown', handlePointerDown);
+      container.removeEventListener('pointermove', handlePointerMove);
+      container.removeEventListener('pointerup', handlePointerUp);
+      container.removeEventListener('pointercancel', handlePointerUp);
     };
-  }, [currentSlide, nextSlide, scrollProgress, slides.length, canStartNewTransition]);
+  }, [handleWheel, handlePointerDown, handlePointerMove, handlePointerUp]);
 
   return (
     <div ref={containerRef} className={heroStyles.container}>
@@ -181,6 +218,7 @@ const Hero = () => {
               setVisualSlide(index);
               setNextSlide(null);
               setScrollProgress(0);
+              progressRef.current = 0;
               setCanStartNewTransition(false);
               setTimeout(() => {
                 setCanStartNewTransition(true);
