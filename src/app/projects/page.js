@@ -41,23 +41,25 @@ const ProjectCard = ({ project }) => {
           </div>
 
           {/* Project Info */}
-          <div className="p-6 space-y-3">
-            <span className="inline-block px-3 py-1 text-sm rounded-full bg-zinc-800 text-white">
-              {categories[project.category]}
-            </span>
-            
-            <h2 className="text-xl font-medium text-white group-hover:text-gray-200 transition-colors">
+          <div className="p-6 space-y-4">
+            <h2 className="text-xl font-medium text-white group-hover:text-gray-200 transition-colors text-center">
               {project.title}
             </h2>
-            
-            <div className="flex items-center gap-4 text-gray-400 text-sm">
-              <div className="flex items-center gap-1.5">
-                <MapPin size={14} />
-                <span>{project.location}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Calendar size={14} />
-                <span>{project.date}</span>
+
+            <div className="flex items-center justify-between gap-2 sm:gap-4">
+              <span className="inline-block px-2.5 py-1 text-xs sm:text-sm rounded-full bg-zinc-800 text-white whitespace-nowrap">
+                {categories[project.category]}
+              </span>
+              
+              <div className="flex items-center gap-3 sm:gap-6 text-gray-400 text-xs sm:text-sm">
+                <div className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                  <MapPin size={13} className="sm:w-[16px] sm:h-[16px] shrink-0" />
+                  <span className="truncate sm:truncate-none">{project.location}</span>
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                  <Calendar size={13} className="sm:w-[16px] sm:h-[16px] shrink-0" />
+                  <span>{project.year}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -97,7 +99,7 @@ const ProjectsPage = () => {
           <div className="fabric-texture" />
           <div className="fine-details" />
         </div>
-        <div className="relative z-10 container mx-auto px-4 pt-32 pb-16 sm:px-6 lg:px-8">
+        <div className="relative z-10 container mx-auto px-4 pt-32 pb-2 sm:px-6 sm:pb-18 lg:px-8">
           {/* Hero Section */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
