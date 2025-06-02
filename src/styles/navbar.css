@@ -20,8 +20,8 @@
   height: 50px;
   cursor: pointer;
   position: fixed;
-  top: 25px;
-  left: 25px;
+  top: 26px;
+  left: 18px;
   z-index: 1000;
   background-color: transparent;
   transition: all 0.3s ease;

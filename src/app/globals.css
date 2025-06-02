@@ -4,9 +4,9 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Capricho';
-  src: url('/fonts/Capricho-Light.otf') format('opentype');
-  font-weight: 300;
+  font-family: 'Questrial';
+  src: url('/fonts/Questrial-Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }

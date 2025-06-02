@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
 import heroStyles from '@/styles/Hero.module.css';
 
 const Hero = () => {
@@ -12,23 +11,15 @@ const Hero = () => {
   const slides = [
     {
       image: '/images/hero/hero-image-1.jpg',
-      title: 'Modern Tasarım',
-      subtitle: 'Yenilikçi Projeler'
     },
     {
       image: '/images/hero/hero-image-2.jpg',
-      title: 'Doğal Mimari',
-      subtitle: 'Sürdürülebilir Çözümler'
     },
     {
       image: '/images/hero/hero-image-3.jpg',
-      title: 'Yenilikçi Tasarım',
-      subtitle: 'Sürdürülebilir Çözümler'
     },
     {
       image: '/images/hero/hero-image-4.png',
-      title: 'Yenilikçi Tasarım',
-      subtitle: 'Sürdürülebilir Çözümler'
     } 
   ];
 
@@ -61,7 +52,7 @@ const Hero = () => {
         >
           <Image
             src={slide.image}
-            alt={slide.title}
+            alt="Hero Image"
             fill
             className={`object-cover ${
               index === 3 ? 'md:object-center object-[85%_center]' : 'object-center'
@@ -73,14 +64,6 @@ const Hero = () => {
       ))}
 
       <div className={heroStyles.content}>
-        <h1 className={heroStyles.title}>
-          <span>{slides[currentSlide].title}</span>
-        </h1>
-        
-        <p className={heroStyles.subtitle}>
-          <span>{slides[currentSlide].subtitle}</span>
-        </p>
-
         <div className={heroStyles.indicators}>
           {slides.map((_, index) => (
             <button

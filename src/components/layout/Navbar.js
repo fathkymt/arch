@@ -61,19 +61,19 @@ const Navbar = () => {
 
         <div className="nav-links">
           <Link href="/" className="nav-link" onClick={() => setIsOpen(false)}>
-            Ana Sayfa
+            ANA SAYFA
           </Link>
           <Link href="/projects" className="nav-link" onClick={() => setIsOpen(false)}>
-            Projeler
+            PROJELER
           </Link>
           <Link href="/about" className="nav-link" onClick={() => setIsOpen(false)}>
-            Hakkımızda
+            HAKKIMIZDA
           </Link>
           <Link href="/contact" className="nav-link" onClick={() => setIsOpen(false)}>
-            İletişim
+            İLETİŞİM
           </Link>
           <Link href="/career" className="nav-link" onClick={() => setIsOpen(false)}>
-            Kariyer
+            KARİYER
           </Link>
         </div>
 

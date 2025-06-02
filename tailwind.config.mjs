@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-capricho)', 'sans-serif'],
+        sans: ['var(--font-questrial)', 'sans-serif'],
       },
       colors: {
         brown: {

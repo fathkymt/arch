@@ -1,30 +1,25 @@
 // src/app/layout.js
 import localFont from 'next/font/local';
-import Navbar from '../components/layout/Navbar';
-import WhiteLogo from '../components/layout/WhiteLogo';
-import Footer from '../components/layout/Footer';
+import ClientLayout from '../components/layout/ClientLayout';
 import './globals.css';
 
-const capricho = localFont({
-  src: '../../public/fonts/Capricho-Light.otf',
-  variable: '--font-capricho',
+const questrial = localFont({
+  src: '../../public/fonts/Questrial-Regular.ttf',
+  variable: '--font-questrial',
 });
 
 export const metadata = {
-  title: 'Es+Partner | Mimarlık',
+  title: 'ES+Partners | Mimarlık',
   description: 'Modern tasarımla geleneksel ahşap dokunuşunu birleştiren mimarlık ofisi',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" className={`${capricho.variable}`}>
+    <html lang="tr" className={`${questrial.variable}`}>
       <body suppressHydrationWarning>
-        <Navbar />
-        <WhiteLogo />
-        <main className="min-h-screen">
+        <ClientLayout>
           {children}
-        </main>
-        <Footer />
+        </ClientLayout>
       </body>
     </html>
   );
