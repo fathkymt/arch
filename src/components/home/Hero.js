@@ -9,6 +9,7 @@ const Hero = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [canStartNewTransition, setCanStartNewTransition] = useState(true);
   const [visualSlide, setVisualSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
   const progressRef = useRef(0);
   const startYRef = useRef(null);
@@ -22,6 +23,7 @@ const Hero = () => {
   const wheelTimeout = useRef(null);
   const scrollLocked = useRef(false);
   const scrollCount = useRef(0);
+  const autoSlideTimer = useRef(null);
 
   const slides = [
     {
@@ -86,9 +88,11 @@ const Hero = () => {
     
     scrollLocked.current = true;
 
-    if (direction > 0 && currentSlide < slides.length - 1) {
+    if (direction > 0) {
       setIsTransitioning(true);
-      setNextSlide(currentSlide + 1);
+      // If we're at the last slide, set nextSlide to 0 for loop
+      const next = currentSlide === slides.length - 1 ? 0 : currentSlide + 1;
+      setNextSlide(next);
       
       const startTime = Date.now();
       const animate = () => {
@@ -101,7 +105,7 @@ const Hero = () => {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          setCurrentSlide(currentSlide + 1);
+          setCurrentSlide(next);
           setNextSlide(null);
           setScrollProgress(0);
           setIsTransitioning(false);
@@ -113,9 +117,11 @@ const Hero = () => {
         }
       };
       requestAnimationFrame(animate);
-    } else if (direction < 0 && currentSlide > 0) {
+    } else if (direction < 0) {
       setIsTransitioning(true);
-      setNextSlide(currentSlide - 1);
+      // If we're at the first slide, set nextSlide to last slide for loop
+      const next = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+      setNextSlide(next);
       
       const startTime = Date.now();
       const animate = () => {
@@ -128,7 +134,7 @@ const Hero = () => {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          setCurrentSlide(currentSlide - 1);
+          setCurrentSlide(next);
           setNextSlide(null);
           setScrollProgress(0);
           setIsTransitioning(false);
@@ -146,25 +152,60 @@ const Hero = () => {
     }
   }, [currentSlide, slides.length, isTransitioning]);
 
+  // Add auto-slide functionality
+  useEffect(() => {
+    const startAutoSlide = () => {
+      if (autoSlideTimer.current) {
+        clearInterval(autoSlideTimer.current);
+      }
+
+      autoSlideTimer.current = setInterval(() => {
+        if (!isPaused && !isTransitioning && !scrollLocked.current) {
+          handleTransition(1); // Positive direction for forward movement
+        }
+      }, 3000); // 3 seconds interval
+    };
+
+    startAutoSlide();
+
+    // Cleanup
+    return () => {
+      if (autoSlideTimer.current) {
+        clearInterval(autoSlideTimer.current);
+      }
+    };
+  }, [isPaused, isTransitioning, handleTransition]);
+
+  // Pause auto-slide on user interaction
+  const pauseAutoSlide = useCallback(() => {
+    setIsPaused(true);
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 5000); // Resume after 5 seconds of no interaction
+  }, []);
+
+  // Update event handlers to pause auto-slide
   const handleWheel = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (isTransitioning || scrollLocked.current) return;
 
+    pauseAutoSlide();
     const direction = Math.sign(e.deltaY);
     scrollCount.current += 1;
 
-    if (scrollCount.current >= 3) {
+    if (scrollCount.current >= 2) {
       handleTransition(direction);
     }
-  }, [isTransitioning, handleTransition]);
+  }, [isTransitioning, handleTransition, pauseAutoSlide]);
 
   const handlePointerDown = useCallback((e) => {
     if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
+    pauseAutoSlide();
     startYRef.current = e.clientY;
     scrollCount.current = 0;
-  }, []);
+  }, [pauseAutoSlide]);
 
   const handlePointerMove = useCallback((e) => {
     if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
