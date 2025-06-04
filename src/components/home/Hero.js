@@ -12,6 +12,16 @@ const Hero = () => {
   const containerRef = useRef(null);
   const progressRef = useRef(0);
   const startYRef = useRef(null);
+  const [scrollTicks, setScrollTicks] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [hasTriggeredTransition, setHasTriggeredTransition] = useState(false);
+  const [isWaitingForNewScroll, setIsWaitingForNewScroll] = useState(false);
+  const lastWheelTime = useRef(0);
+  const transitionDuration = 800;
+  const wheelEvents = useRef([]);
+  const wheelTimeout = useRef(null);
+  const scrollLocked = useRef(false);
+  const scrollCount = useRef(0);
 
   const slides = [
     {
@@ -53,45 +63,165 @@ const Hero = () => {
     }
   }, [scrollProgress, nextSlide, currentSlide]);
 
+  // Prevent default scroll behavior globally for the container
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const preventScroll = (e) => {
+      e.preventDefault();
+    };
+
+    container.addEventListener('wheel', preventScroll, { passive: false });
+    container.addEventListener('touchmove', preventScroll, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', preventScroll);
+      container.removeEventListener('touchmove', preventScroll);
+    };
+  }, []);
+
+  const handleWheel = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isTransitioning || scrollLocked.current) {
+      return;
+    }
+
+    const direction = Math.sign(e.deltaY);
+    scrollCount.current += 1;
+
+    if (scrollCount.current >= 3) {
+      scrollLocked.current = true;
+
+      if (direction > 0 && currentSlide < slides.length - 1) {
+        setIsTransitioning(true);
+        setNextSlide(currentSlide + 1);
+        
+        const startTime = Date.now();
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / transitionDuration, 1);
+          const easedProgress = 1 - Math.pow(1 - progress, 3);
+          
+          setScrollProgress(easedProgress);
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            setCurrentSlide(currentSlide + 1);
+            setNextSlide(null);
+            setScrollProgress(0);
+            setIsTransitioning(false);
+            
+            // Reset after animation completes
+            setTimeout(() => {
+              scrollCount.current = 0;
+              scrollLocked.current = false;
+            }, 500);
+          }
+        };
+        requestAnimationFrame(animate);
+      } else if (direction < 0 && currentSlide > 0) {
+        setIsTransitioning(true);
+        setNextSlide(currentSlide - 1);
+        
+        const startTime = Date.now();
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / transitionDuration, 1);
+          const easedProgress = 1 - Math.pow(1 - progress, 3);
+          
+          setScrollProgress(easedProgress);
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            setCurrentSlide(currentSlide - 1);
+            setNextSlide(null);
+            setScrollProgress(0);
+            setIsTransitioning(false);
+            
+            // Reset after animation completes
+            setTimeout(() => {
+              scrollCount.current = 0;
+              scrollLocked.current = false;
+            }, 500);
+          }
+        };
+        requestAnimationFrame(animate);
+      } else {
+        // If we can't move in the desired direction, reset
+        scrollCount.current = 0;
+        scrollLocked.current = false;
+      }
+    }
+  }, [currentSlide, slides.length, isTransitioning]);
+
+  // Reset scroll state when user stops scrolling
+  useEffect(() => {
+    let scrollTimeout;
+    
+    const handleScrollEnd = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (!isTransitioning) {
+          scrollCount.current = 0;
+          scrollLocked.current = false;
+        }
+      }, 150);
+    };
+
+    window.addEventListener('wheel', handleScrollEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener('wheel', handleScrollEnd);
+      clearTimeout(scrollTimeout);
+    };
+  }, [isTransitioning]);
+
+  // Prevent default scroll behavior
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const preventDefault = (e) => e.preventDefault();
+    
+    container.addEventListener('wheel', preventDefault, { passive: false });
+    container.addEventListener('touchmove', preventDefault, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', preventDefault);
+      container.removeEventListener('touchmove', preventDefault);
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [handleWheel]);
+
   const handleTransitionComplete = useCallback(() => {
+    if (nextSlide === null) return;
     setCurrentSlide(nextSlide);
     setNextSlide(null);
     setScrollProgress(0);
     progressRef.current = 0;
-    setCanStartNewTransition(false);
-    setTimeout(() => {
-      setCanStartNewTransition(true);
-    }, 500);
-  }, [nextSlide]);
-
-  const handleWheel = useCallback((e) => {
-    if (!canStartNewTransition) return;
-    e.preventDefault();
-
-    const threshold = window.innerHeight * 0.15;
+    setIsTransitioning(false);
     
-    if (nextSlide !== null) {
-      const progress = Math.abs(e.deltaY) / threshold;
-      setScrollProgress(prev => {
-        const newProgress = Math.min(Math.max(prev + progress * 0.15, 0), 1);
-        progressRef.current = newProgress;
-        
-        if (newProgress >= 1) {
-          handleTransitionComplete();
-          return 0;
-        }
-        return newProgress;
-      });
-    } else {
-      if (Math.abs(e.deltaY) > 10) {
-        if (e.deltaY > 0 && currentSlide < slides.length - 1) {
-          setNextSlide(currentSlide + 1);
-        } else if (e.deltaY < 0 && currentSlide > 0) {
-          setNextSlide(currentSlide - 1);
-        }
-      }
-    }
-  }, [canStartNewTransition, currentSlide, nextSlide, slides.length, handleTransitionComplete]);
+    // Wait before allowing new transitions
+    setTimeout(() => {
+      setHasTriggeredTransition(false);
+      setCanStartNewTransition(true);
+    }, 200);
+  }, [nextSlide]);
 
   const handlePointerDown = useCallback((e) => {
     if (e.pointerType !== 'touch' && e.pointerType !== 'pen') return;
@@ -104,7 +234,7 @@ const Hero = () => {
     if (startYRef.current === null || !canStartNewTransition) return;
 
     const diff = startYRef.current - e.clientY;
-    const threshold = window.innerHeight * 0.45;
+    const threshold = window.innerHeight * 0.35; // Reduced threshold for smoother mobile experience
     
     if (e.cancelable) {
       e.preventDefault();
@@ -113,7 +243,7 @@ const Hero = () => {
     if (nextSlide !== null) {
       const progress = Math.abs(diff) / threshold;
       setScrollProgress(prev => {
-        const newProgress = Math.min(Math.max(prev + progress * 0.4, 0), 1);
+        const newProgress = Math.min(Math.max(prev + progress * 0.25, 0), 1); // Reduced multiplier for smoother transitions
         progressRef.current = newProgress;
         
         if (newProgress >= 1) {
@@ -124,7 +254,7 @@ const Hero = () => {
         return newProgress;
       });
     } else {
-      if (Math.abs(diff) > 25) {
+      if (Math.abs(diff) > 35) { // Increased threshold for more intentional swipes
         if (diff > 0 && currentSlide < slides.length - 1) {
           setNextSlide(currentSlide + 1);
         } else if (diff < 0 && currentSlide > 0) {
@@ -147,28 +277,6 @@ const Hero = () => {
     progressRef.current = 0;
   }, [nextSlide, handleTransitionComplete]);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Desktop için wheel event
-    container.addEventListener('wheel', handleWheel, { passive: false });
-
-    // Mobile için pointer events
-    container.addEventListener('pointerdown', handlePointerDown);
-    container.addEventListener('pointermove', handlePointerMove, { passive: false });
-    container.addEventListener('pointerup', handlePointerUp);
-    container.addEventListener('pointercancel', handlePointerUp);
-
-    return () => {
-      container.removeEventListener('wheel', handleWheel);
-      container.removeEventListener('pointerdown', handlePointerDown);
-      container.removeEventListener('pointermove', handlePointerMove);
-      container.removeEventListener('pointerup', handlePointerUp);
-      container.removeEventListener('pointercancel', handlePointerUp);
-    };
-  }, [handleWheel, handlePointerDown, handlePointerMove, handlePointerUp]);
-
   return (
     <div ref={containerRef} className={heroStyles.container}>
       {slides.map((slide, index) => (
@@ -185,10 +293,10 @@ const Hero = () => {
                 : 0,
             transform: `scale(${
               nextSlide === index 
-                ? 1 + (0.1 * (1 - scrollProgress))
+                ? 1 + (0.05 * (1 - scrollProgress)) // Reduced scale effect
                 : currentSlide === index 
-                  ? 1 + (0.1 * scrollProgress)
-                  : 1.1
+                  ? 1 + (0.05 * scrollProgress) // Reduced scale effect
+                  : 1.05
             })`
           }}
         >

@@ -12,7 +12,7 @@ export default function ProjectDetail({ params }) {
   const [isMounted, setIsMounted] = useState(false);
   const [project, setProject] = useState(null);
 
-  const { category, id } = use(params);
+  const { id } = use(params);
 
   useEffect(() => {
     setIsMounted(true);
@@ -100,7 +100,7 @@ export default function ProjectDetail({ params }) {
               <span className="text-white/20">|</span>
               
               <Link
-                href={`/projects/${category}`}
+                href={`/projects?category=${project?.category}`}
                 className="group relative px-4 py-2 text-sm text-white/90 hover:text-white transition-colors"
               >
                 <span className="relative z-10">Kategori</span>

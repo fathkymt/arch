@@ -26,7 +26,7 @@ const ProjectCard = ({ project }) => {
       }}
       className="group h-full"
     >
-      <Link href={`/projects/${project.category}/${project.id}`} className="block h-full">
+      <Link href={`/projects/${project.id}`} className="block h-full">
         <div className="bg-zinc-900/30 rounded-2xl overflow-hidden h-full">
           {/* Project Image */}
           <div className="relative aspect-[16/10] w-full overflow-hidden">
@@ -78,11 +78,24 @@ const ProjectsPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     const urlParams = new URLSearchParams(window.location.search);
-    const categoryFromUrl = urlParams.get('selectedCategory');
+    const categoryFromUrl = urlParams.get('category');
     if (categoryFromUrl) {
       setSelectedCategory(categoryFromUrl);
     }
   }, []);
+
+  // Update URL when category changes
+  useEffect(() => {
+    if (isMounted) {
+      const url = new URL(window.location.href);
+      if (selectedCategory === 'all') {
+        url.searchParams.delete('category');
+      } else {
+        url.searchParams.set('category', selectedCategory);
+      }
+      window.history.pushState({}, '', url);
+    }
+  }, [selectedCategory, isMounted]);
 
   if (!isMounted) return null;
 
