@@ -347,7 +347,7 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent" />
           
           {/* Project Info Overlay */}
-          <div className="absolute bottom-12 left-12 z-10 text-white md:block hidden">
+          <div className="absolute bottom-12 left-12 z-30 text-white md:block hidden">
             <div className="space-y-3">
               <h3 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide">
                 {slide.project.title}
@@ -359,7 +359,7 @@ const Hero = () => {
           </div>
           
           {/* Mobile Project Info - Inside image, at bottom 20% area */}
-          <div className="absolute bottom-[20%] left-0 right-0 z-5 text-white md:hidden block">
+          <div className="absolute bottom-[20%] left-0 right-0 z-30 text-white md:hidden block">
             <div className="text-center space-y-1 px-4">
               <h3 className="text-lg font-light tracking-wide">
                 {slide.project.title}
