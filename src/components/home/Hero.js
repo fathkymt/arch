@@ -359,7 +359,7 @@ const Hero = () => {
           </div>
           
           {/* Mobile Project Info */}
-          <div className="absolute top-[75vh] left-0 right-0 z-30 text-white md:hidden block">
+          <div className="absolute top-[72vh] left-0 right-0 z-30 text-white md:hidden block">
             <div className="text-center space-y-1 px-4">
               <h3 className="text-lg font-light tracking-wide">
                 {slide.project.title}
