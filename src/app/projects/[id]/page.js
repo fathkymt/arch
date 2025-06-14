@@ -78,6 +78,15 @@ export default function ProjectDetail({ params }) {
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[#111111] z-[-1]" />
 
+      {/* Hide WhiteLogo on mobile */}
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          .white-logo {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       {/* Navigation Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
         <div className="container mx-auto px-4">

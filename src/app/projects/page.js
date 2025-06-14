@@ -124,7 +124,7 @@ const ProjectsPage = () => {
               Projelerimiz
             </h1>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto font-light tracking-wide">
-              Mimari, iç mimari ve peyzaj alanlarında gerçekleştirdiğimiz seçkin projelerimiz
+              Mimari, iç mimari ve kamu alanlarında gerçekleştirdiğimiz seçkin projelerimiz,
             </p>
           </motion.div>
 

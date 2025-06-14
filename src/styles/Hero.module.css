@@ -124,4 +124,14 @@
     object-fit: contain !important;
     transform: scale(1.5);
   }
+  
+  .indicators {
+    right: 1rem;
+  }
+  
+  .indicator {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
 }
+

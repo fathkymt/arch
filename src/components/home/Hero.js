@@ -28,15 +28,35 @@ const Hero = () => {
   const slides = [
     {
       image: '/images/hero/hero-image-1.jpg',
+      project: {
+        title: 'Modern Dağ Evi',
+        location: 'Bolu',
+        year: '2023'
+      }
     },
     {
       image: '/images/hero/hero-image-2.jpg',
+      project: {
+        title: 'Palmares',
+        location: 'İstanbul',
+        year: '2023'
+      }
     },
     {
       image: '/images/hero/hero-image-3.jpg',
+      project: {
+        title: 'Kiev Project',
+        location: 'Muğla',
+        year: '2024'
+      }
     },
     {
       image: '/images/hero/hero-image-4.png',
+      project: {
+        title: 'Teachera',
+        location: 'İstanbul',
+        year: '2024'
+      }
     } 
   ];
 
@@ -325,6 +345,30 @@ const Hero = () => {
             priority={index === 0}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/30 to-transparent" />
+          
+          {/* Project Info Overlay */}
+          <div className="absolute bottom-12 left-12 z-10 text-white md:block hidden">
+            <div className="space-y-3">
+              <h3 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide">
+                {slide.project.title}
+              </h3>
+              <div className="text-lg md:text-xl text-white/90">
+                <p className="font-light">{slide.project.year}, {slide.project.location}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Mobile Project Info - Inside image, at bottom 20% area */}
+          <div className="absolute bottom-[20%] left-0 right-0 z-5 text-white md:hidden block">
+            <div className="text-center space-y-1 px-4">
+              <h3 className="text-lg font-light tracking-wide">
+                {slide.project.title}
+              </h3>
+              <p className="text-sm text-white/90 font-light">
+                {slide.project.year}, {slide.project.location}
+              </p>
+            </div>
+          </div>
         </div>
       ))}
 
