@@ -5,6 +5,6 @@ export default function robots() {
       allow: '/',
       disallow: ['/api/', '/admin/'],
     },
-    sitemap: 'https://yourwebsite.com/sitemap.xml', // Bu URL'i kendi domain'inizle değiştirin
+    sitemap: 'https://espluspartners.com/sitemap.xml',
   }
 } 

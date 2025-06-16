@@ -1,7 +1,7 @@
 import { projects } from '@/data/projects'
 
 export default function sitemap() {
-  const baseUrl = 'https://yourwebsite.com' // Bu URL'i kendi domain'inizle değiştirin
+  const baseUrl = 'https://espluspartners.com'
   
   // Statik sayfalar
   const staticPages = [
