@@ -1,0 +1,10 @@
+export default function robots() {
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: ['/api/', '/admin/'],
+    },
+    sitemap: 'https://yourwebsite.com/sitemap.xml', // Bu URL'i kendi domain'inizle değiştirin
+  }
+} 
