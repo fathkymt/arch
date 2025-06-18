@@ -29,33 +29,33 @@ const Hero = () => {
     {
       image: '/images/hero/hero-image-1.jpg',
       project: {
-        title: 'Modern Dağ Evi',
-        location: 'Bolu',
+        title: 'A. HOUSE',
+        location: 'Konya',
         year: '2023'
       }
     },
     {
       image: '/images/hero/hero-image-2.jpg',
       project: {
-        title: 'Palmares',
-        location: 'İstanbul',
-        year: '2023'
+        title: 'Palmares +',
+        location: 'Konya',
+        year: '2022'
       }
     },
     {
       image: '/images/hero/hero-image-3.jpg',
       project: {
         title: 'Kiev Project',
-        location: 'Muğla',
-        year: '2024'
+        location: 'Kiev',
+        year: '2022'
       }
     },
     {
       image: '/images/hero/hero-image-4.png',
       project: {
         title: 'Teachera',
-        location: 'İstanbul',
-        year: '2024'
+        location: 'Konya',
+        year: '2023'
       }
     } 
   ];
