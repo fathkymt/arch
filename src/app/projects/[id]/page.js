@@ -180,25 +180,29 @@ export default function ProjectDetail({ params }) {
                   <Calendar className="w-5 h-5 text-white/60" />
                   <span>{project.year}</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Grid className="w-5 h-5 text-white/60" />
-                  <span>{project.area} m²</span>
-                </div>
+                {project.id !== 2 && (
+                  <div className="flex items-center gap-3 text-gray-300">
+                    <Grid className="w-5 h-5 text-white/60" />
+                    <span>{project.area} m²</span>
+                  </div>
+                )}
               </motion.div>
             </div>
 
             {/* Main Gallery Image */}
             <motion.div 
-              className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-neutral-800"
+              className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border border-neutral-800 cursor-pointer hover:border-neutral-700 transition-colors"
               {...fadeIn}
               transition={{ delay: 0.8 }}
+              onClick={() => handleImageClick(project.image, 0)}
             >
               <Image
-                src={project.detailImages[0]}
-                alt={`${project.title} detay`}
+                src={project.image}
+                alt={`${project.title} ana görsel`}
                 fill
                 className="object-cover"
               />
+              <div className="absolute inset-0 bg-black/10 opacity-0 hover:opacity-100 transition-opacity" />
             </motion.div>
           </div>
 
@@ -209,17 +213,17 @@ export default function ProjectDetail({ params }) {
             initial="hidden"
             animate="show"
           >
-            {[project.image, ...project.detailImages].map((image, index) => (
+            {project.detailImages.map((image, index) => (
               <motion.div
                 key={index}
                 className="relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-neutral-800 hover:border-neutral-700 transition-colors"
                 whileHover={{ scale: 1.02 }}
-                onClick={() => handleImageClick(image, index)}
+                onClick={() => handleImageClick(image, index + 1)}
                 variants={fadeIn}
               >
                 <Image
                   src={image}
-                  alt={`${project.title} görsel ${index + 1}`}
+                  alt={`${project.title} görsel ${index + 2}`}
                   fill
                   className="object-cover"
                 />
@@ -236,7 +240,7 @@ export default function ProjectDetail({ params }) {
           >
             {nextProject && (
               <Link
-                href={`/projects/${nextProject.category}/${nextProject.id}`}
+                href={`/projects/${nextProject.id}`}
                 className="flex items-center justify-between group hover:bg-neutral-800/50 p-4 rounded-xl transition-all duration-300"
               >
                 <div>
