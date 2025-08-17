@@ -29,12 +29,7 @@ export async function POST(request) {
       fileName: file?.name
     });
 
-    if (!file) {
-      return NextResponse.json(
-        { error: 'CV dosyası gereklidir' },
-        { status: 400 }
-      );
-    }
+    // CV dosyası artık optional
 
     const data = {
       fullName: formData.get('fullName'),
@@ -61,11 +56,18 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Bir mesaj giriniz.' }, { status: 400 });
     }
 
-    const fileBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(fileBuffer);
-
-    // Mail içeriğini oluştur
-    const emailContent = `Content-Type: multipart/mixed; boundary="boundary"\nMIME-Version: 1.0\nFrom: ${process.env.EMAIL_FROM}\nTo: ${process.env.RECIPIENT_EMAIL}\nSubject: =?utf-8?B?${Buffer.from(`Yeni İş Başvurusu: ${data.position}`).toString('base64')}?=\n\n--boundary\nContent-Type: text/html; charset=utf-8\n\n<h2>Yeni İş Başvurusu</h2>\n<p><strong>İsim:</strong> ${data.fullName}</p>\n<p><strong>E-posta:</strong> ${data.email}</p>\n<p><strong>Telefon:</strong> ${data.phone}</p>\n<p><strong>Pozisyon:</strong> ${data.position}</p>\n<p><strong>Mesaj:</strong> ${data.message}</p>\n\n--boundary\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: base64\nContent-Disposition: attachment; filename="${file.name}"\n\n${buffer.toString('base64')}\n--boundary--`;
+    let emailContent;
+    
+    if (file) {
+      // PDF varsa eklentili mail
+      const fileBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(fileBuffer);
+      
+      emailContent = `Content-Type: multipart/mixed; boundary="boundary"\nMIME-Version: 1.0\nFrom: ${process.env.EMAIL_FROM}\nTo: ${process.env.RECIPIENT_EMAIL}\nSubject: =?utf-8?B?${Buffer.from(`Yeni İş Başvurusu: ${data.position}`).toString('base64')}?=\n\n--boundary\nContent-Type: text/html; charset=utf-8\n\n<h2>Yeni İş Başvurusu</h2>\n<p><strong>İsim:</strong> ${data.fullName}</p>\n<p><strong>E-posta:</strong> ${data.email}</p>\n<p><strong>Telefon:</strong> ${data.phone}</p>\n<p><strong>Pozisyon:</strong> ${data.position}</p>\n<p><strong>Mesaj:</strong> ${data.message}</p>\n\n--boundary\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: base64\nContent-Disposition: attachment; filename="${file.name}"\n\n${buffer.toString('base64')}\n--boundary--`;
+    } else {
+      // PDF yoksa basit mail
+      emailContent = `Content-Type: text/html; charset=utf-8\nMIME-Version: 1.0\nFrom: ${process.env.EMAIL_FROM}\nTo: ${process.env.RECIPIENT_EMAIL}\nSubject: =?utf-8?B?${Buffer.from(`Yeni İş Başvurusu: ${data.position}`).toString('base64')}?=\n\n<h2>Yeni İş Başvurusu</h2>\n<p><strong>İsim:</strong> ${data.fullName}</p>\n<p><strong>E-posta:</strong> ${data.email}</p>\n<p><strong>Telefon:</strong> ${data.phone}</p>\n<p><strong>Pozisyon:</strong> ${data.position}</p>\n<p><strong>Mesaj:</strong> ${data.message}</p>\n<p><em>Not: CV eklenmemiş</em></p>`;
+    }
 
     // Base64 encode the email
     const encodedEmail = Buffer.from(emailContent)

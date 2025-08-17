@@ -178,14 +178,13 @@ export default function CareerPage() {
                   type="file"
                   name="cvFile"
                   accept=".pdf,.doc,.docx"
-                  required
                     className="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg text-white 
                       file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm 
                       file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 
                       transition-all duration-200"
                 />
                 <p className="mt-2 text-sm text-white/60">
-                  PDF, DOC veya DOCX formatında (max 5MB)
+                  PDF, DOC veya DOCX formatında (max 5MB) - İsteğe bağlı
                 </p>
               </div>
             </div>
