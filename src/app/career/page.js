@@ -184,7 +184,7 @@ export default function CareerPage() {
                       transition-all duration-200"
                 />
                 <p className="mt-2 text-sm text-white/60">
-                  PDF, DOC veya DOCX formatında (max 5MB) - İsteğe bağlı
+                  PDF, DOC veya DOCX formatında (max 25MB) - İsteğe bağlı
                 </p>
               </div>
             </div>

@@ -30,6 +30,14 @@ export async function POST(request) {
     });
 
     // CV dosyası artık optional
+    
+    // Dosya boyutu kontrolü (25MB = 25 * 1024 * 1024 bytes)
+    if (file && file.size > 25 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: 'CV dosyası çok büyük. Maksimum 25MB yükleyebilirsiniz.' },
+        { status: 400 }
+      );
+    }
 
     const data = {
       fullName: formData.get('fullName'),

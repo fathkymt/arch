@@ -2,7 +2,12 @@
 const nextConfig = {
     experimental: {
       serverActions: true
-    }
+    },
+    api: {
+      bodyParser: {
+        sizeLimit: '25mb',
+      },
+    },
   };
   
   export default nextConfig;
