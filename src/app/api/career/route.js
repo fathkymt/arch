@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { google } from 'googleapis';
 
+// API Route için body size limiti
+export const runtime = 'nodejs';
+export const maxDuration = 60; // 60 saniye timeout
+
 const OAuth2 = google.auth.OAuth2;
 
 const oauth2Client = new OAuth2(
